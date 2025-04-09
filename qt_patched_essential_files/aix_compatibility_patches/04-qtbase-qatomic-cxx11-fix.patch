@@ -1,0 +1,90 @@
+--- a/src/corelib/thread/qatomic_cxx11.h
++++ b/src/corelib/thread/qatomic_cxx11.h
+@@ -66,6 +66,16 @@
+ QT_BEGIN_NAMESPACE
+ 
+ #if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++// GCC 4.6.x doesn't support all atomic operations from C++11
++// Create compatible versions
++
++#define atomic_load_explicit(ptr, order) atomic_load(ptr)
++#define atomic_store_explicit(ptr, val, order) atomic_store(ptr, val)
++#define atomic_exchange_explicit(ptr, val, order) atomic_exchange(ptr, val)
++#define atomic_compare_exchange_strong_explicit(ptr, expected, desired, success, failure) \
++    atomic_compare_exchange_strong(ptr, expected, desired)
++#define atomic_compare_exchange_weak_explicit(ptr, expected, desired, success, failure) \
++    atomic_compare_exchange_weak(ptr, expected, desired)
+ #endif
+ 
+ template <typename T>
+@@ -75,7 +85,7 @@
+ struct QAtomicIntegerStorage
+ {
+     std::atomic<T> _q_value;
+-
++    
+     T load() const Q_DECL_NOTHROW
+     {
+ #if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
+@@ -210,7 +220,7 @@
+     {
+ #if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
+         return Ops::testAndSetRelease(this->_q_value, expectedValue, newValue);
+-#else
++#else 
+         T expected = expectedValue;
+         return this->_q_value.compare_exchange_strong(expected, newValue, std::memory_order_release,
+                                                       std::memory_order_relaxed);
+@@ -296,9 +306,12 @@
+ {
+     static inline T loadAcquire(const std::atomic<T> &_q_value) Q_DECL_NOTHROW
+     {
+-#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
+-        // warning-free way to do loadAcquire on std::atomic
+-        T tmp = _q_value.load(std::memory_order_relaxed);
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++        // GCC 4.6 doesn't fully support memory_order
++        T tmp = _q_value.load();
++        asm volatile("" ::: "memory");    // Force memory barrier
++        return tmp;
++#elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
+         __sync_synchronize();
+         return tmp;
+ #else
+@@ -308,7 +321,11 @@
+ 
+     static inline T loadRelaxed(const std::atomic<T> &_q_value) Q_DECL_NOTHROW
+     {
+-#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++        // GCC 4.6 doesn't fully support memory_order
++        return _q_value.load();
++#elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
+         return _q_value.load(std::memory_order_relaxed);
+ #else
+         return _q_value.load(std::memory_order_relaxed);
+@@ -317,7 +334,11 @@
+ 
+     static inline void storeRelaxed(std::atomic<T> &_q_value, T newValue) Q_DECL_NOTHROW
+     {
+-#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6  
++        // GCC 4.6 doesn't fully support memory_order
++        _q_value.store(newValue);
++#elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
+         _q_value.store(newValue, std::memory_order_relaxed);
+ #else
+         _q_value.store(newValue, std::memory_order_relaxed);
+@@ -326,7 +347,12 @@
+ 
+     static inline void storeRelease(std::atomic<T> &_q_value, T newValue) Q_DECL_NOTHROW
+     {
+-#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6 
++        // GCC 4.6 doesn't fully support memory_order
++        asm volatile("" ::: "memory");    // Force memory barrier
++        _q_value.store(newValue);
++#elif defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ < 8
+         __sync_synchronize();
+         _q_value.store(newValue, std::memory_order_relaxed);
+ #else

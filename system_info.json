@@ -3,14 +3,12 @@
   "os_version": "#1-NixOS SMP PREEMPT_DYNAMIC Tue Jan  1 00:00:00 UTC 1980",
   "architecture": "x86_64",
   "compiler": "gcc",
-  "compiler_version": "13.3.0",
+  "compiler_version": "13.2.0",
   "missing_libraries": [
     "X11",
     "OpenSSL",
     "Freetype",
     "Fontconfig"
   ],
-  "missing_tools": [
-    "patch"
-  ]
+  "missing_tools": []
 }

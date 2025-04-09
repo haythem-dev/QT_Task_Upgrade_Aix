@@ -1,0 +1,14 @@
+--- configure	2020-05-26 13:48:35.000000000 +0000
++++ configure	2023-08-01 10:11:23.000000000 +0000
+@@ -7346,6 +7346,11 @@
+     CFG_GCC_SUFFIX=
+ fi
+ 
++# Set OBJECT_MODE=64 for AIX
++if test "$PLATFORM_AIX"; then
++    export OBJECT_MODE=64
++fi
++
+ # Auto-detect C++11/C++14/C++17/C++2a support for the compiler (except when the user has explicitly specified a standard)
+ if [ -z "$CFG_CXX_STD" ]; then
+     case "$PLATFORM" in

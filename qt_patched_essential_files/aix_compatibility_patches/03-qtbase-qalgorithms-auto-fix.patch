@@ -1,0 +1,56 @@
+--- a/src/corelib/tools/qalgorithms.h
++++ b/src/corelib/tools/qalgorithms.h
+@@ -626,7 +626,7 @@
+ template <typename RandomAccessIterator, typename LessThan>
+ Q_OUTOFLINE_TEMPLATE void qSortHelper(RandomAccessIterator first, RandomAccessIterator last,
+                                       LessThan lessThan)
+-{
++{ 
+ top:
+     int span = int(last - first);
+     if (span < 2)
+@@ -641,7 +641,7 @@
+     RandomAccessIterator low = first, high = last - 1;
+ 
+     // partition
+-    const auto pivot = median(*low, *(low + span / 2), *(high - span / 2));
++    const decltype(*low) pivot = median(*low, *(low + span / 2), *(high - span / 2));
+ 
+     for (;;) {
+         while (lessThan(*low, pivot))
+@@ -870,7 +870,7 @@
+ template <typename ForwardIterator, typename T>
+ ForwardIterator qUpperBound(ForwardIterator first, ForwardIterator last,
+                             const T &value)
+-{
++{ 
+     // Implementation is duplicated from qLowerBound.
+     // Duplicate implementation is required for the compiler to generate non-inline code.
+ 
+@@ -879,7 +879,7 @@
+     // implementation to decide which version is actually better for any
+     // given usage pattern.
+ 
+-    const auto n = last - first;
++    const qptrdiff n = last - first;
+     if (n < 29) {
+         return std::upper_bound(first, last, value);
+     } else {
+@@ -898,7 +898,7 @@
+ ForwardIterator qLowerBound(ForwardIterator first, ForwardIterator last,
+                             const T &value, LessThan lessThan)
+ {
+-    const auto n = last - first;
++    const qptrdiff n = last - first;
+     if (n < 29) {
+         return std::lower_bound(first, last, value,
+                                [&lessThan](const T &lhs, const T &rhs) {
+@@ -918,7 +918,7 @@
+ ForwardIterator qUpperBound(ForwardIterator first, ForwardIterator last,
+                             const T &value, LessThan lessThan)
+ {
+-    const auto n = last - first;
++    const qptrdiff n = last - first;
+     if (n < 29) {
+         return std::upper_bound(first, last, value,
+                                [&lessThan](const T &lhs, const T &rhs) {
