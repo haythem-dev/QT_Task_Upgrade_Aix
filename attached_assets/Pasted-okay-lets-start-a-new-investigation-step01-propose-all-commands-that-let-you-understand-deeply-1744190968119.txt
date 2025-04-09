@@ -1,0 +1,2813 @@
+okay .. lets start a new investigation : step01, propose all commands that let you understand deeply my environment aix: compiler, versions, path libs, os , etc ... then after understanding well our environment we will plan to build qt5.15.0 in our machine ... see risks, compatibility, etc ... and try to patch in final step    :
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # oslevel -s
+7200-05-02-2114
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # uname -a
+AIX denu1uazdev21 2 7 00FBD2F54C00
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # prtconf | head -n 5
+System Model: IBM,9040-MR9
+Machine Serial Number: 78D2F5X
+Processor Type: PowerPC_POWER9
+Processor Implementation Mode: POWER 9
+Processor Version: PV_9_Compat
+/usr/sbin/prtconf: There is no process to read data written to a pipe.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # lparstat -i
+Node Name                                  : denu1uazdev21
+Partition Name                             : denu1uazdev21
+Partition Number                           : 4
+Type                                       : Shared-SMT-8
+Mode                                       : Uncapped
+Entitled Capacity                          : 2.00
+Partition Group-ID                         : 32772
+Shared Pool ID                             : 1
+Online Virtual CPUs                        : 4
+Maximum Virtual CPUs                       : 10
+Minimum Virtual CPUs                       : 1
+Online Memory                              : 88064 MB
+Maximum Memory                             : 98304 MB
+Minimum Memory                             : 1024 MB
+Variable Capacity Weight                   : 128
+Minimum Capacity                           : 0.10
+Maximum Capacity                           : 10.00
+Capacity Increment                         : 0.01
+Maximum Physical CPUs in system            : 44
+Active Physical CPUs in system             : 44
+Active CPUs in Pool                        : 12
+Shared Physical CPUs in system             : 44
+Maximum Capacity of Pool                   : 1200
+Entitled Capacity of Pool                  : 1125
+Unallocated Capacity                       : 0.00
+Physical CPU Percentage                    : 50.00%
+Unallocated Weight                         : 0
+Memory Mode                                : Dedicated
+Total I/O Memory Entitlement               : -
+Variable Memory Capacity Weight            : -
+Memory Pool ID                             : -
+Physical Memory in the Pool                : -
+Hypervisor Page Size                       : -
+Unallocated Variable Memory Capacity Weight: -
+Unallocated I/O Memory entitlement         : -
+Memory Group ID of LPAR                    : -
+Desired Virtual CPUs                       : 4
+Desired Memory                             : 88064 MB
+Desired Variable Capacity Weight           : 128
+Desired Capacity                           : 2.00
+Target Memory Expansion Factor             : -
+Target Memory Expansion Size               : -
+Power Saving Mode                          : Dynamic Power Savings (Favor Performance)
+Sub Processor Mode                         : -
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # bootinfo -K
+ksh: bootinfo: 0403-006 Execute permission denied.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # lslpp -L all
+  Fileset                      Level  State  Type  Description (Uninstaller)
+  ----------------------------------------------------------------------------
+  BESClient              10.0.11.108    C     F    BigFix Agent
+  EMC.CLARiiON.aix.rte       6.1.1.0    C     F    DellEMC CLARiiON AIX Support
+                                                   Software
+  EMC.CLARiiON.fcp.rte       6.1.1.0    C     F    DellEMC CLARiiON FCP Support
+                                                   Software
+  EMC.INVISTA.aix.rte        6.1.1.0    C     F    DellEMC INVISTA AIX Support
+                                                   Software
+  EMC.INVISTA.fcp.rte        6.1.1.0    C     F    DellEMC INVISTA FCP Support
+                                                   Software
+  EMC.Symmetrix.aix.rte      6.1.1.0    C     F    DellEMC Symmetrix AIX Support
+                                                   Software
+  EMC.Symmetrix.fcp.rte      6.1.1.0    C     F    DellEMC Symmetrix FCP Support
+                                                   Software
+  EMCpower.MgmtComponent     6.4.0.0    C     F    PowerPath Management
+                                                   Componeand Utilities
+  EMCpower.base              6.4.0.0    C     F    PowerPath Base Driver and
+                                                   Utilities
+  EMCpower.migration_enabler
+                             6.4.0.0    C     F    PowerPath Migration Enabler
+                                                   and Utilities
+  EMCpower.mpx               6.4.0.0    C     F    PowerPath Multi_Pathing
+                                                   Extension and Utilities
+  GSKit8.gskcrypt64.ppc.rte
+                           8.0.55.31    C     F    IBM GSKit Cryptography Runtime
+  GSKit8.gskssl64.ppc.rte  8.0.55.31    C     F    IBM GSKit SSL Runtime With
+                                                   Acme Toolkit
+  ICU4C.rte                  7.2.5.0    C     F    International Components for
+                                                   Unicode
+  Java6.sdk                6.0.0.655    C     F    Java SDK 32-bit
+  Java6_64.sdk             6.0.0.655    C     F    Java SDK 64-bit
+  Java7_64.jre             7.0.0.675    C     F    Java SDK 64-bit Java Runtime
+                                                   Environment
+  Java7_64.sdk             7.0.0.675    C     F    Java SDK 64-bit Development
+                                                   Kit
+  Java8_64.jre             8.0.0.620    C     F    Java SDK 64-bit Java Runtime
+                                                   Environment
+  Java8_64.sdk             8.0.0.620    C     F    Java SDK 64-bit Development
+                                                   Kit
+  Tivoli_Management_Agent.client.rte
+                             3.7.1.0    C     F    Management Framework Endpoint
+                                                   Runtime"
+  X11.adt.bitmaps            7.2.0.0    C     F    AIXwindows Application
+                                                   Development Toolkit Bitmap
+                                                   Files
+  X11.adt.imake              7.2.0.0    C     F    AIXwindows Application
+                                                   Development Toolkit imake
+  X11.adt.include            7.2.5.0    C     F    AIXwindows Application
+                                                   Development Toolkit Include
+                                                   Files
+  X11.adt.lib                7.2.5.0    C     F    AIXwindows Application
+                                                   Development Toolkit Libraries
+  X11.apps.aixterm           7.2.5.0    C     F    AIXwindows aixterm Application
+  X11.apps.clients           7.2.5.0    C     F    AIXwindows Client Applications
+  X11.apps.config            7.2.5.0    C     F    AIXwindows Configuration
+                                                   Applications
+  X11.apps.custom            7.2.5.0    C     F    AIXwindows Customizing Tool
+  X11.apps.msmit             7.2.5.0    C     F    AIXwindows msmit Application
+  X11.apps.rte               7.2.5.0    C     F    AIXwindows Runtime
+                                                   Configuration Applications
+  X11.apps.util              7.2.5.0    C     F    AIXwindows Utility
+                                                   Applications
+  X11.apps.xdm               7.2.5.0    C     F    AIXwindows xdm Application
+  X11.apps.xterm             7.2.5.0    C     F    AIXwindows xterm Application
+  X11.base.common            7.2.0.0    C     F    AIXwindows Runtime Common
+                                                   Directories
+  X11.base.lib               7.2.5.1    C     F    AIXwindows Runtime Libraries
+  X11.base.rte               7.2.5.1    C     F    AIXwindows Runtime Environment
+  X11.base.smt              7.2.3.15    C     F    AIXwindows Runtime Shared
+                                                   Memory Transport
+  X11.base.xpconfig          7.2.0.0    C     F    Xprint Configuration Files
+  X11.compat.lib.X11R6       7.2.5.0    C     F    AIXwindows X11R6 Compatibility
+                                                   Libraries
+  X11.compat.lib.X11R6_motif
+                            7.2.3.15    C     F    AIXwindows X11R6 Motif 1.2 &
+                                                   2.1 Compatibility
+  X11.fnt.coreX              7.2.0.0    C     F    AIXwindows X Consortium Fonts
+  X11.fnt.defaultFonts       7.2.0.0    C     F    AIXwindows Default Fonts
+  X11.fnt.iso1               7.2.0.0    C     F    AIXwindows Latin 1 Fonts
+  X11.fnt.iso_T1             7.2.0.0    C     F    AIXwindows Latin Type1 Fonts
+  X11.loc.de_DE.base.lib     7.2.4.0    C     F    AIXwindows Client Locale
+                                                   Config - German
+  X11.loc.de_DE.base.rte     7.2.4.0    C     F    AIXwindows Locale
+                                                   Configuration - German
+  X11.loc.en_US.base.lib     7.2.4.0    C     F    AIXwindows Client Locale
+                                                   Config - U.S. English
+  X11.loc.en_US.base.rte     7.2.4.0    C     F    AIXwindows Locale
+                                                   Configuration - U.S. English
+  X11.motif.lib              7.2.5.0    C     F    AIXwindows Motif Libraries
+  X11.motif.mwm              7.2.5.0    C     F    AIXwindows Motif Window
+                                                   Manager
+  X11.msg.en_US.adt.imake    7.2.4.0    C     F    AIXwindows imake Messages -
+                                                   U.S. English
+  X11.msg.en_US.apps.aixterm
+                             7.2.4.0    C     F    AIXwindows aixterm Messages -
+                                                   U.S. English
+  X11.msg.en_US.apps.clients
+                             7.2.4.0    C     F    AIXwindows Client Apps Msgs -
+                                                   U.S. English
+  X11.msg.en_US.apps.config  7.2.4.0    C     F    AIXwindows Config Apps Msgs -
+                                                   U.S. English
+  X11.msg.en_US.apps.custom  7.2.4.0    C     F    AIXwindows Custom Tool Msgs -
+                                                   U.S. English
+  X11.msg.en_US.apps.rte     7.2.4.0    C     F    AIXwindows Runtime Config Msgs
+                                                   - U.S. English
+  X11.msg.en_US.apps.xdm     7.2.4.0    C     F    AIXwindows xdm Messages - U.S.
+                                                   English
+  X11.msg.en_US.base.common  7.2.4.0    C     F    AIXwindows Common Messages -
+                                                   U.S. English
+  X11.msg.en_US.base.rte     7.2.4.0    C     F    AIXwindows Runtime Env. Msgs -
+                                                   U.S. English
+  X11.msg.en_US.motif.lib    7.2.4.0    C     F    AIXwindows Motif Lib. Msgs -
+                                                   U.S. English
+  X11.msg.en_US.motif.mwm    7.2.4.0    C     F    AIX Motif Window Mgr Msgs -
+                                                   U.S. English
+  X11.msg.en_US.vsm.rte      7.2.4.0    C     F    Visual Sys Mgmt. Helps & Msgs
+                                                   - U.S. English
+  X11.samples.apps.clients   7.2.5.0    C     F    AIXwindows Sample X Consortium
+                                                   Clients Binary/Source
+  X11.samples.common         7.2.0.0    C     F    AIXwindows Imakefile Structure
+                                                   for Samples
+  X11.samples.lib.Core       7.2.0.0    C     F    AIXwindows Sample X Consortium
+                                                   Core Libraries Binary/Source
+  X11.vsm.lib                7.2.5.0    C     F    Visual System Managment
+                                                   Library
+  adde.v2.common.rte         7.2.0.0    C     F    ADDE Common Device Runtime
+                                                   Environment
+  adde.v2.ethernet.rte       7.2.5.1    C     F    ADDE Ethernet Device Runtime
+                                                   Environment
+  adde.v2.rdma.rte           7.2.2.0    C     F    ADDE RDMA Device Runtime
+                                                   Environment
+  artex.base.rte             7.2.5.1    C     F    AIX Runtime Expert
+  artex.base.samples         7.2.5.0    C     F    AIX Runtime Expert sample
+                                                   profiles
+  bos.64bit                  7.2.5.2    C     F    Base Operating System 64 bit
+                                                   Runtime
+  bos.acct                   7.2.5.1    C     F    Accounting Services
+  bos.adt.base               7.2.5.1    C     F    Base Application Development
+                                                   Toolkit
+  bos.adt.data               7.2.0.0    C     F    Base Application Development
+                                                   Toolkit Data
+  bos.adt.debug              7.2.5.0    C     F    Base Application Development
+                                                   Debuggers
+  bos.adt.graphics           7.2.4.0    C     F    Base Application Development
+                                                   Graphics Include Files
+  bos.adt.include            7.2.5.2    C     F    Base Application Development
+                                                   Include Files
+  bos.adt.insttools          7.2.5.0    C     F    Tool to Create installp
+                                                   Packages
+  bos.adt.lib                7.2.4.0    C     F    Base Application Development
+                                                   Libraries
+  bos.adt.libm               7.2.5.0    C     F    Base Application Development
+                                                   Math Library
+  bos.adt.libmio             7.2.4.0    C     F    Modular IO Library
+  bos.adt.prof               7.2.5.2    C     F    Base Profiling Support
+  bos.adt.prt_tools          7.2.0.0    C     F    Printer Support Development
+                                                   Toolkit
+  bos.adt.samples            7.2.0.0    C     F    Base Operating System Samples
+  bos.adt.sccs               7.2.5.0    C     F    SCCS Application Development
+                                                   Toolkit
+  bos.adt.syscalls           7.2.5.0    C     F    System Calls Application
+                                                   Development Toolkit
+  bos.adt.utils              7.2.5.0    C     F    Base Application Development
+                                                   Utilities - lex and yacc
+  bos.ae                     7.2.5.0    C     F    Activation Engine
+  bos.ahafs                  7.2.5.1    C     F    Aha File System
+  bos.aixpert.cmds           7.2.5.1    C     F    AIX Security Hardening
+  bos.alt_disk_install.boot_images
+                             7.2.5.3    C     F    Alternate Disk Installation
+                                                   Disk Boot Images
+  bos.alt_disk_install.rte   7.2.5.1    C     F    Alternate Disk Installation
+                                                   Runtime
+  bos.aso                    7.2.5.0    C     F    Active System Optimizer
+  bos.cdat                   7.2.5.0    C     F    Cluster Data Aggregation Tool
+  bos.cdmount                7.2.5.0    C     F    CD/DVD Automount Facility
+  bos.cifs_fs.rte            7.2.5.1    C     F    Runtime for SMBFS
+  bos.cifs_fs.smit           7.2.0.0    C     F    SMIT Interface for SMBFS
+  bos.cluster.rte            7.2.5.1    C     F    Cluster Aware AIX
+  bos.clvm.enh               7.2.5.0    C     F    Enhanced Concurrent Logical
+                                                   Volume Manager
+  bos.content_list           7.2.4.0    C     F    AIX Release Content List
+  bos.data                  7.1.0.15    C     F    Base Operating System Data
+  bos.diag.com               7.2.5.0    C     F    Common Hardware Diagnostics
+  bos.diag.ecc              7.2.3.15    C     F    Inventory Scout ECC Client
+  bos.diag.rte               7.2.5.1    C     F    Hardware Diagnostics
+  bos.diag.util              7.2.5.1    C     F    Hardware Diagnostics Utilities
+  bos.dosutil                7.2.4.0    C     F    DOS Utilities
+  bos.ecc_client.rte         7.2.5.0    C     F    Electronic Customer Care
+                                                   Runtime
+  bos.esagent                7.2.5.0    C     F    Electronic Service Agent
+  bos.help.msg.en_US.com     7.2.5.0    C     F    WebSM/SMIT Context Helps -
+                                                   U.S. English
+  bos.help.msg.en_US.smit    7.2.5.0    C     F    SMIT Context Helps - U.S.
+                                                   English
+  bos.iconv.com              7.2.5.0    C     F    Common Language to Language
+                                                   Converters
+  bos.iconv.de_DE            7.2.0.0    C     F    EBCDIC & ASCII Language
+                                                   Converters - German
+  bos.iconv.iso2             7.2.0.0    C     F    EBCDIC & ASCII Language
+                                                   Converters - Latin 2 Countries
+  bos.iconv.iso5             7.2.0.0    C     F    EBCDIC & ASCII Language
+                                                   Converters - Cyrillic
+                                                   Countries
+  bos.iconv.ucs.com          7.2.4.0    C     F    Unicode Base Converters for
+                                                   AIX Code Sets/Fonts
+  bos.iocp.rte               7.2.5.1    C     F    I/O Completion Ports API
+  bos.loc.com.EE             7.2.0.0    C     F    Common Locale Support -
+                                                   Eastern Europe
+  bos.loc.iso.bg_BG          7.2.5.0    C     F    Base System Locale ISO Code
+                                                   Set - Bulgarian
+  bos.loc.iso.cs_CZ          7.2.5.0    C     F    Base System Locale ISO Code
+                                                   Set - Czech
+  bos.loc.iso.de_DE          7.2.5.0    C     F    Base System Locale ISO Code
+                                                   Set - German
+  bos.loc.iso.en_US          7.2.5.0    C     F    Base System Locale ISO Code
+                                                   Set - U.S. English
+  bos.mh                     7.2.0.0    C     F    Mail Handler
+  bos.mls.lib                7.2.0.0    C     F    Trusted AIX Libraries
+  bos.mp64                   7.2.5.3    CE    F    Base Operating System 64-bit
+                                                   Multiprocessor Runtime
+  bos.msg.en_US.alt_disk_install.rte
+                             7.2.5.0    C     F    Alternate Disk Install Msgs -
+                                                   U.S. English
+  bos.msg.en_US.diag.rte     7.2.5.0    C     F    Hardware Diagnostics Messages
+                                                   - U.S. English
+  bos.msg.en_US.net.ipsec    7.2.5.0    C     F    IP Security Messages - U.S.
+                                                   English
+  bos.msg.en_US.net.tcp.client
+                             7.2.5.0    C     F    TCP/IP Messages - U.S. English
+  bos.msg.en_US.rte          7.2.5.0    C     F    Base OS Runtime Messages -
+                                                   U.S. English
+  bos.msg.en_US.svprint      7.2.5.0    C     F    System V Print Subsystem Msgs
+                                                   - U.S. English
+  bos.msg.en_US.txt.tfs      7.2.5.0    C     F    Text Formatting Services Msgs
+                                                   - U.S. English
+  bos.net.ate                7.2.0.0    C     F    Asynchronous Terminal Emulator
+  bos.net.ewlm.rte           7.2.5.0    C     F    netWLM
+  bos.net.ipsec.keymgt       7.2.5.1    C     F    IP Security Key Management
+  bos.net.ipsec.rte          7.2.5.1    C     F    IP Security
+  bos.net.mobip6.rte         7.2.5.0    C     F    IPv6 Mobility
+  bos.net.nfs.adt            7.2.5.0    C     F    Network File System
+                                                   Development Toolkit
+  bos.net.nfs.cachefs        7.2.5.0    C     F    CacheFS File System
+  bos.net.nfs.client         7.2.5.1    C     F    Network File System Client
+  bos.net.nfs.server         7.2.5.0    C     F    Network File System Server
+  bos.net.nis.client         7.2.4.0    C     F    Network Information Service
+                                                   Client
+  bos.net.nis.server         7.2.4.0    C     F    Network Information Service
+                                                   Server
+  bos.net.ppp                7.2.4.0    C     F    Async Point to Point Protocol
+  bos.net.sctp               7.2.5.0    C     F    Stream Control Transmission
+                                                   Protocol
+  bos.net.snapp              7.2.4.0    C     F    System Networking Analysis and
+                                                   Performance Pilot
+  bos.net.tcp.adt            7.2.5.1    C     F    TCP/IP Application Toolkit
+  bos.net.tcp.bind           7.2.5.1    C     F    TCP/IP BIND Server
+                                                   Applications
+  bos.net.tcp.bind_utils     7.2.5.2    C     F    TCP/IP BIND Utility
+                                                   Applications
+  bos.net.tcp.bootp          7.2.5.1    C     F    TCP/IP bootpd Application
+  bos.net.tcp.client         7.2.0.0    C     F    TCP/IP Client Support
+  bos.net.tcp.client_core    7.2.5.4    C     F    TCP/IP Client Core Support
+  bos.net.tcp.dfpd           7.2.5.1    C     F    TCP/IP Dynamic Feedback
+                                                   Protocol Application
+  bos.net.tcp.dhcp           7.2.5.1    C     F    TCP/IP DHCP Client Application
+  bos.net.tcp.dhcpd          7.2.5.1    C     F    TCP/IP DHCP Server
+                                                   Applications
+  bos.net.tcp.ftp            7.2.5.1    C     F    TCP/IP ftp Client Application
+  bos.net.tcp.ftpd           7.2.5.1    C     F    TCP/IP ftp Server Application
+  bos.net.tcp.gated          7.2.5.1    C     F    TCP/IP gated Applications
+  bos.net.tcp.imapd          7.2.5.2    C     F    TCP/IP imapd Applications
+  bos.net.tcp.mail_utils     7.2.5.1    C     F    TCP/IP Mail Utility
+                                                   Applications
+  bos.net.tcp.ntp            7.2.5.4    C     F    TCP/IP ntp Applications
+  bos.net.tcp.ntpd           7.2.5.4    C     F    TCP/IP ntpd Applications
+  bos.net.tcp.pop3d          7.2.5.2    C     F    TCP/IP pop3d Applications
+  bos.net.tcp.pxed           7.2.5.1    C     F    TCP/IP PXE Server Applications
+  bos.net.tcp.rcmd           7.2.5.1    C     F    TCP/IP Remote Command Client
+                                                   Applications
+  bos.net.tcp.rcmd_server    7.2.5.4    C     F    TCP/IP Remote Command Server
+                                                   Applications
+  bos.net.tcp.sendmail       7.2.5.2    C     F    TCP/IP sendmail Applications
+  bos.net.tcp.server         7.2.4.0    C     F    TCP/IP Server Support
+  bos.net.tcp.server_core    7.2.5.1    C     F    TCP/IP Server Core
+  bos.net.tcp.slip           7.2.5.1    C     F    TCP/IP SLIP Applications
+  bos.net.tcp.slp            7.2.5.1    C     F    TCP/IP SLP Applications
+  bos.net.tcp.smit           7.2.5.1    C     F    TCP/IP SMIT Support
+  bos.net.tcp.snmp           7.2.5.1    C     F    TCP/IP SNMP Client Application
+  bos.net.tcp.snmpd          7.2.5.1    C     F    TCP/IP SNMP Server Application
+  bos.net.tcp.syslogd        7.2.5.1    C     F    TCP/IP syslogd Application
+  bos.net.tcp.tcpdump        7.2.5.2    C     F    TCP/IP Trace Applications
+  bos.net.tcp.telnet         7.2.5.1    C     F    TCP/IP telnet Application
+  bos.net.tcp.telnetd        7.2.5.1    C     F    TCP/IP telnetd Application
+  bos.net.tcp.tftp           7.2.5.1    C     F    TCP/IP tftp Client
+                                                   Applications
+  bos.net.tcp.tftpd          7.2.5.1    C     F    TCP/IP tftpd Server
+                                                   Application
+  bos.net.tcp.timed          7.2.5.1    C     F    TCP/IP timed Application
+  bos.net.tcp.traceroute     7.2.5.1    C     F    TCP/IP BIND traceroute
+                                                   Applications
+  bos.net.tcp.x500           7.2.5.1    C     F    TCP/IP x500 Related Support
+  bos.net.uucode             7.2.5.0    C     F    Unix to Unix Copy Utilities
+  bos.net.uucp               7.2.4.0    C     F    Unix to Unix Copy Program
+  bos.perf.diag_tool         7.2.2.0    C     F    Performance Diagnostic Tool
+  bos.perf.fdpr              7.2.5.0    C     F    Feedback Directed Program
+                                                   Restructuring performance tool
+  bos.perf.libperfstat       7.2.5.1    C     F    Performance Statistics Library
+                                                   Interface
+  bos.perf.perfstat          7.2.5.0    C     F    Performance Statistics
+                                                   Interface
+  bos.perf.pmaix            7.2.3.15    C     F    Performance Management
+  bos.perf.proctools         7.2.5.0    C     F    Proc Filesystem Tools
+  bos.perf.tools             7.2.5.1    C     F    Base Performance Tools
+  bos.perf.tune              7.2.5.1    C     F    Performance Tuning Support
+  bos.pmapi.events           7.2.5.0    C     F    Performance Monitor API Event
+                                                   Codes
+  bos.pmapi.lib              7.2.5.1    C     F    Performance Monitor API
+                                                   Library
+  bos.pmapi.pmsvcs           7.2.5.1    C     F    Performance Monitor API Kernel
+                                                   Extension
+  bos.pmapi.samples          7.2.3.0    C     F    Performance Monitor API
+                                                   Samples
+  bos.pmapi.tools            7.2.5.0    C     F    Performance Monitor API Tools
+  bos.rte                    7.2.5.1    C     F    Base Operating System Runtime
+  bos.rte.Dt                 7.2.5.0    C     F    Desktop Integrator
+  bos.rte.ILS                7.2.5.0    C     F    International Language Support
+  bos.rte.SRC                7.2.4.0    C     F    System Resource Controller
+  bos.rte.X11                7.2.0.0    C     F    AIXwindows Device Support
+  bos.rte.aio                7.2.5.0    C     F    Asynchronous I/O Extension
+  bos.rte.archive            7.2.5.0    C     F    Archive Commands
+  bos.rte.bind_cmds          7.2.5.0    C     F    Binder and Loader Commands
+  bos.rte.boot               7.2.5.0    C     F    Boot Commands
+  bos.rte.bosinst            7.2.5.0    C     F    Base OS Install Commands
+  bos.rte.commands           7.2.5.1    C     F    Commands
+  bos.rte.compare            7.2.5.0    C     F    File Compare Commands
+  bos.rte.console            7.2.1.0    C     F    Console
+  bos.rte.control            7.2.5.2    C     F    System Control Commands
+  bos.rte.cron               7.2.5.0    C     F    Batch Operations
+  bos.rte.date               7.2.5.1    C     F    Date Control Commands
+  bos.rte.devices            7.2.5.0    C     F    Base Device Drivers
+  bos.rte.devices_msg        7.2.5.1    C     F    Device Driver Messages
+  bos.rte.diag               7.2.4.0    C     F    Diagnostics
+  bos.rte.edit               7.2.5.0    C     F    Editors
+  bos.rte.filesystem         7.2.5.1    C     F    Filesystem Administration
+  bos.rte.iconv              7.2.4.0    C     F    Language Converters
+  bos.rte.ifor_ls            7.2.5.0    C     F    iFOR/LS Libraries
+  bos.rte.im                 7.2.5.0    C     F    Input Methods
+  bos.rte.install            7.2.5.3    C     F    LPP Install Commands
+  bos.rte.jfscomp            7.2.3.0    C     F    JFS Compression
+  bos.rte.libc               7.2.5.2    C     F    libc Library
+  bos.rte.libcfg             7.2.5.0    C     F    libcfg Library
+  bos.rte.libcur             7.2.5.0    C     F    libcurses Library
+  bos.rte.libdbm             7.2.5.0    C     F    libdbm Library
+  bos.rte.libnetsvc          7.2.0.0    C     F    Network Services Libraries
+  bos.rte.libpthreads        7.2.5.1    C     F    libpthreads Library
+  bos.rte.libqb              7.2.4.0    C     F    libqb Library
+  bos.rte.libs               7.2.0.0    C     F    libs Library
+  bos.rte.loc                7.2.1.0    C     F    Base Locale Support
+  bos.rte.lvm                7.2.5.1    C     F    Logical Volume Manager
+  bos.rte.man                7.2.5.0    C     F    Man Commands
+  bos.rte.methods            7.2.5.1    C     F    Device Config Methods
+  bos.rte.misc_cmds          7.2.5.0    C     F    Miscellaneous Commands
+  bos.rte.mlslib             7.2.0.0    C     F    Trusted AIX Libraries
+  bos.rte.net                7.2.5.0    C     F    Network
+  bos.rte.odm                7.2.4.0    C     F    Object Data Manager
+  bos.rte.printers           7.2.5.1    C     F    Front End Printer Support
+  bos.rte.security           7.2.5.1    C     F    Base Security Function
+  bos.rte.serv_aid           7.2.5.1    C     F    Error Log Service Aids
+  bos.rte.shell              7.2.5.2    CE    F    Shells (bsh, ksh, csh)
+  bos.rte.streams            7.2.4.0    C     F    Streams Libraries
+  bos.rte.tty                7.2.5.0    C     F    Base TTY Support and Commands
+  bos.suma                   7.2.5.1    C     F    Service Update Management
+                                                   Assistant (SUMA)
+  bos.svprint.dir_enabled    7.2.0.0    C     F    System V Directory-enabled
+                                                   Commands
+  bos.svprint.fonts          7.2.0.0    C     F    System V Print Fonts
+  bos.svprint.hpnp           7.2.0.0    C     F    System V Hewlett-Packard
+                                                   JetDirect
+  bos.svprint.ps             7.2.0.0    C     F    System V Print Postscript
+  bos.svprint.rte            7.2.5.0    C     F    System V Print Subsystem
+  bos.svprint.trans          7.2.0.0    C     F    System V Print Translation
+  bos.swma                   7.2.0.0    C     F    Software Maintenance Agreement
+  bos.sysmgt.loginlic        7.2.4.0    C     F    License Management
+  bos.sysmgt.nim.client      7.2.5.1    C     F    Network Install Manager -
+                                                   Client Tools
+  bos.sysmgt.quota           7.2.5.0    C     F    Filesystem Quota Commands
+  bos.sysmgt.serv_aid        7.2.5.1    C     F    Software Error Logging and
+                                                   Dump Service Aids
+  bos.sysmgt.smit            7.2.5.0    C     F    System Management Interface
+                                                   Tool (SMIT)
+  bos.sysmgt.sysbr           7.2.5.2    C     F    System Backup and BOS Install
+                                                   Utilities
+  bos.sysmgt.trace           7.2.5.1    C     F    Software Trace Service Aids
+  bos.terminfo.ansi.data     7.2.0.0    C     F    Amer National Stds Institute
+                                                   Terminal Defs
+  bos.terminfo.com.data      7.2.0.0    C     F    Common Terminal Definitions
+  bos.terminfo.dec.data      7.2.0.0    C     F    Digital Equipment Corp.
+                                                   Terminal Definitions
+  bos.terminfo.ibm.data      7.2.0.0    C     F    IBM Terminal Definitions
+  bos.terminfo.pc.data       7.2.0.0    C     F    Personal Computer Terminal
+                                                   Definitions
+  bos.terminfo.print.data    7.2.0.0    C     F    Generic Line Printer Terminal
+                                                   Definitions
+  bos.terminfo.rte           7.2.5.0    C     F    Run-time Environment for AIX
+                                                   Terminals
+  bos.terminfo.svprint.data  7.2.0.0    C     F    System V Printer Terminal
+                                                   Definitions
+  bos.terminfo.televideo.data
+                             7.2.0.0    C     F    Televideo Terminal Definitions
+  bos.terminfo.wyse.data     7.2.0.0    C     F    Wyse Terminal Definitions
+  bos.txt.spell              7.2.5.0    C     F    Writer's Tools Commands
+  bos.txt.spell.data         7.2.0.0    C     F    Writer's Tools Data
+  bos.txt.tfs                7.2.5.1    C     F    Text Formatting Services
+                                                   Commands
+  bos.txt.tfs.data           7.2.0.0    C     F    Text Formatting Services Data
+  bos.wpars                  7.2.5.0    C     F    AIX Workload Partitions
+  bos.xerces.lib             3.2.2.0    C     F    APACHE Xerces-C++ XML parsing
+                                                   library
+  cdrtools.base              1.9.0.9    C     F    CD/DVD recorder
+  cdrtools.man.en_US         1.9.0.9    C     F    CD/DVD recorder man page
+                                                   documentation
+  clic.rte.kernext          4.10.0.2    C     F    CryptoLite for C Kernel
+  clic.rte.lib              4.10.0.2    C     F    CryptoLite for C Library
+  cluster.adt.es.client.include
+                             7.2.5.1    C     F    PowerHA SystemMirror Client
+                                                   Include Files
+  cluster.es.client.clcomd   7.2.5.1    C     F    Cluster Communication
+                                                   Infrastructure
+  cluster.es.client.lib      7.2.5.1    C     F    PowerHA SystemMirror Client
+                                                   Libraries
+  cluster.es.client.rte      7.2.5.1    C     F    PowerHA SystemMirror Client
+                                                   Runtime
+  cluster.es.client.utils    7.2.5.1    C     F    PowerHA SystemMirror Client
+                                                   Utilities
+  cluster.es.cspoc.cmds      7.2.5.1    C     F    CSPOC Commands
+  cluster.es.cspoc.rte       7.2.5.1    C     F    CSPOC Runtime Commands
+  cluster.es.migcheck        7.2.5.0    C     F    PowerHA SystemMirror Migration
+                                                   support
+  cluster.es.nfs.rte         7.2.5.1    C     F    NFS Support
+  cluster.es.server.diag     7.2.5.1    C     F    Server Diags
+  cluster.es.server.events   7.2.5.1    C     F    Server Events
+  cluster.es.server.rte      7.2.5.1    C     F    Base Server Runtime
+  cluster.es.server.testtool
+                             7.2.5.1    C     F    Cluster Test Tool
+  cluster.es.server.utils    7.2.5.1    C     F    Server Utilities
+  cluster.license            7.2.5.1    C     F    PowerHA SystemMirror
+                                                   Electronic License
+  cluster.man.en_US.es.data  7.2.5.0    C     F    Man Pages - U.S. English
+  devices.artic960.diag      7.2.5.0    C     F    IBM ARTIC960 Adapter
+                                                   Diagnostics
+  devices.artic960.rte       7.2.5.0    C     F    IBM ARTIC960 Runtime Support
+  devices.artic960.ucode     7.2.5.0    C     F    IBM ARTIC960 Adapter Software
+  devices.capi.14105043.rte  7.2.4.0    C     F    CAPI Memory Copy Accelerator
+                                                   Software
+  devices.capi.1410f0041410f004.com
+                             7.2.5.0    C     F    Common CAPI Flash Adapter
+                                                   Device Software
+  devices.capi.1410f0041410f004.diag
+                             7.2.4.0    C     F    CAPI Flash Adapter Diagnostics
+  devices.capi.1410f0041410f004.rte
+                             7.2.0.0    C     F    CAPI Flash Adapter Device
+                                                   Software
+  devices.chrp.AT97SC3201_r.rte
+                             7.2.0.0    C     F    Trusted Platform Module Device
+                                                   Software
+  devices.chrp.IBM.lhca.rte  7.2.4.0    C     F    Infiniband Logical HCA Runtime
+                                                   Environment
+  devices.chrp.IBM.lhea.diag
+                             7.2.5.0    C     F    Host Ethernet Adapter
+                                                   Diagnostics
+  devices.chrp.IBM.lhea.rte  7.2.4.0    C     F    Host Ethernet Adapter (HEA)
+                                                   Runtime Environment
+  devices.chrp.base.ServiceRM
+                             2.5.1.3    C     F    RSCT Service Resource Manager
+  devices.chrp.base.diag     7.2.5.1    C     F    RISC CHRP Base System Device
+                                                   Diagnostics
+  devices.chrp.base.rte      7.2.5.1    C     F    RISC PC Base System Device
+                                                   Software (CHRP)
+  devices.chrp.capi.rte      7.2.4.0    C     F    CAPI Bus Software (CHRP)
+  devices.chrp.pci.rte       7.2.5.0    C     F    PCI Bus Software (CHRP)
+  devices.chrp.pciex.rte     7.2.0.0    C     F    PCI Express Bus Software
+                                                   (CHRP)
+  devices.chrp.vdevice.rte   7.2.5.0    C     F    Virtual I/O Bus Support
+  devices.chrp_lpar.base.ras
+                             7.2.5.0    C     F    CHRP LPAR RAS Support
+  devices.common.IBM.async.diag
+                             7.2.5.0    C     F    Common Serial Adapter
+                                                   Diagnostics
+  devices.common.IBM.cflash.rte
+                             7.2.5.0    C     F    Common CAPI Flash Device
+                                                   Software
+  devices.common.IBM.crypt.rte
+                             7.2.5.1    C     F    Cryptographic Common Runtime
+                                                   Environment
+  devices.common.IBM.cx.rte  7.2.5.0    C     F    CX Common Adapter Software
+  devices.common.IBM.disk.rte
+                             7.2.5.0    C     F    Common IBM Disk Software
+  devices.common.IBM.ethernet.rte
+                             7.2.5.1    C     F    Common Ethernet Software
+  devices.common.IBM.fc.hba-api
+                             7.2.5.0    C     F    Common HBA API Library
+  devices.common.IBM.fc.rte  7.2.5.1    C     F    Common IBM FC Software
+  devices.common.IBM.fda.diag
+                             7.2.5.0    C     F    Common Diskette Adapter and
+                                                   Device Diagnostics
+  devices.common.IBM.fda.rte
+                             7.2.5.0    C     F    Common Diskette Device
+                                                   Software
+  devices.common.IBM.hdlc.rte
+                             7.2.5.0    C     F    Common HDLC Software
+  devices.common.IBM.hdlc.sdlc
+                             7.2.5.0    C     F    SDLC COMIO Device Driver
+                                                   Emulation
+  devices.common.IBM.ib.rte  7.2.5.0    C     F    Infiniband Common Runtime
+                                                   Environment
+  devices.common.IBM.ide.rte
+                             7.2.0.0    C     F    Common IDE I/O Controller
+                                                   Software
+  devices.common.IBM.iscsi.rte
+                             7.2.5.0    C     F    Common iSCSI Files
+  devices.common.IBM.ktm_std.diag
+                             7.2.0.0    C     F    Common Keyboard, Mouse, and
+                                                   Tablet Device Diagnostics
+  devices.common.IBM.ktm_std.rte
+                             7.2.5.0    C     F    Common Keyboard, Tablet, and
+                                                   Mouse Software
+  devices.common.IBM.modemcfg.data
+                             7.2.0.0    C     F    Sample Service Processor Modem
+                                                   Configuration Files
+  devices.common.IBM.mpio.rte
+                             7.2.5.0    C     F    MPIO Disk Path Control Module
+  devices.common.IBM.mpt2.diag
+                             7.2.5.0    C     F    MPT SAS Device Diagnostics
+  devices.common.IBM.mpt2.rte
+                             7.2.4.0    C     F    MPT SAS Device Software
+  devices.common.IBM.scsi.rte
+                             7.2.5.0    C     F    Common SCSI I/O Controller
+                                                   Software
+  devices.common.IBM.sissas.rte
+                             7.2.5.0    C     F    Common IBM SAS RAID Software
+  devices.common.IBM.soe.rte
+                             7.2.5.0    C     F    Serial over Ethernet client
+                                                   driver
+  devices.common.IBM.storfwork.rte
+                             7.2.5.0    C     F    Storage Framework Module
+  devices.common.IBM.usb.diag
+                             7.2.5.0    C     F    Common USB Adapter Diagnostics
+  devices.common.IBM.usb.rte
+                             7.2.5.0    C     F    USB System Software
+  devices.common.IBM.xhci.rte
+                             7.2.5.0    C     F    Common xHCI Adapter Device
+                                                   Software
+  devices.common.base.diag   7.2.5.0    C     F    Common Base System Diagnostics
+  devices.common.rspcbase.rte
+                             7.2.4.0    C     F    RISC PC Common Base System
+                                                   Device Software
+  devices.ethernet.ct3.cdli  7.2.5.0    C     F    10 Gigabit Ethernet Adapter
+                                                   Software
+  devices.ethernet.ct3.rte   7.2.5.0    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Host Bus Adapter
+                                                   Software
+  devices.ethernet.lnc.rte  7.1.1.15    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+                                                   (lnc)
+  devices.ethernet.lnc2.rte  7.2.5.2    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+                                                   (lnc2)
+  devices.ethernet.mlx.diag  7.2.0.0    C     F    RoCE Converged Network Adapter
+                                                   Diagnostics
+  devices.ethernet.mlx.rte   7.2.5.2    C     F    RoCE Converged Network Adapter
+  devices.ethernet.mlxc.rte  7.2.5.2    C     F    MLXC RoCE Adapter Software
+  devices.ethernet.shi.rte   7.2.5.2    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+                                                   (shi)
+  devices.fcp.disk.rte       7.2.5.1    C     F    FC SCSI CD-ROM, Disk,
+                                                   Read/Write Optical Device
+                                                   Software
+  devices.fcp.tape.rte       7.2.5.1    C     F    FC SCSI Tape Device Software
+  devices.graphics.com       7.2.3.0    C     F    Graphics Adapter Common
+                                                   Software
+  devices.graphics.voo       7.2.5.0    C     F    Graphics Adapter VOO and
+                                                   Stereo Software
+  devices.ide.cdrom.diag     7.2.5.0    C     F    IDE CDROM, Cdrom Device
+                                                   Diagnostics
+  devices.ide.cdrom.rte      7.2.5.0    C     F    IDE CDROM Device Software
+  devices.iscsi.disk.rte     7.2.5.0    C     F    iSCSI Disk Software
+  devices.iscsi.tape.rte     7.2.0.0    C     F    iSCSI Tape Software
+  devices.iscsi_sw.rte       7.2.5.0    C     F    iSCSI Software Device Driver
+  devices.loopback.rte       7.2.4.0    C     F    Loopback Device Driver
+  devices.msg.CA_ES.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Catalan (UTF)
+  devices.msg.CA_ES.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Catalan (UTF)
+  devices.msg.CA_ES.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Catalan (UTF)
+  devices.msg.CA_ES.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Catalan (UTF)
+  devices.msg.CS_CZ.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Czech (UTF)
+  devices.msg.CS_CZ.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Czech (UTF)
+  devices.msg.CS_CZ.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Czech (UTF)
+  devices.msg.CS_CZ.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Czech (UTF)
+  devices.msg.DE_DE.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   German (UTF)
+  devices.msg.DE_DE.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   German (UTF)
+  devices.msg.DE_DE.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   German (UTF)
+  devices.msg.DE_DE.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - German (UTF)
+  devices.msg.EN_US.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   U.S. English (UTF)
+  devices.msg.EN_US.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   U.S. English (UTF)
+  devices.msg.EN_US.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   U.S. English (UTF)
+  devices.msg.EN_US.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - U.S. English (UTF)
+  devices.msg.ES_ES.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Spanish (UTF)
+  devices.msg.ES_ES.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Spanish (UTF)
+  devices.msg.ES_ES.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Spanish (UTF)
+  devices.msg.ES_ES.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Spanish (UTF)
+  devices.msg.FR_FR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   French (UTF)
+  devices.msg.FR_FR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   French (UTF)
+  devices.msg.FR_FR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   French (UTF)
+  devices.msg.FR_FR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - French (UTF)
+  devices.msg.HU_HU.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Hungarian (UTF)
+  devices.msg.HU_HU.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Hungarian (UTF)
+  devices.msg.HU_HU.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Hungarian (UTF)
+  devices.msg.HU_HU.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Hungarian (UTF)
+  devices.msg.IT_IT.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Italian (UTF)
+  devices.msg.IT_IT.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Italian (UTF)
+  devices.msg.IT_IT.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Italian (UTF)
+  devices.msg.IT_IT.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Italian (UTF)
+  devices.msg.JA_JP.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Japanese (UTF)
+  devices.msg.JA_JP.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Japanese (UTF)
+  devices.msg.JA_JP.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Japanese (UTF)
+  devices.msg.JA_JP.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Japanese (UTF)
+  devices.msg.Ja_JP.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Japanese
+  devices.msg.Ja_JP.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Japanese
+  devices.msg.Ja_JP.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Japanese
+  devices.msg.Ja_JP.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Japanese
+  devices.msg.KO_KR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Korean (UTF)
+  devices.msg.KO_KR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Korean (UTF)
+  devices.msg.KO_KR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Korean (UTF)
+  devices.msg.KO_KR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Korean (UTF)
+  devices.msg.PL_PL.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Polish (UTF)
+  devices.msg.PL_PL.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Polish (UTF)
+  devices.msg.PL_PL.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Polish (UTF)
+  devices.msg.PL_PL.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Polish (UTF)
+  devices.msg.PT_BR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Brazilian Portuguese (UTF)
+  devices.msg.PT_BR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Brazilian Portuguese (UTF)
+  devices.msg.PT_BR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Brazilian Portuguese (UTF)
+  devices.msg.PT_BR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Brazilian Portuguese (UTF)
+  devices.msg.RU_RU.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Russian (UTF)
+  devices.msg.RU_RU.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Russian (UTF)
+  devices.msg.RU_RU.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Russian (UTF)
+  devices.msg.RU_RU.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Russian (UTF)
+  devices.msg.SK_SK.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Slovak (UTF)
+  devices.msg.SK_SK.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Slovak (UTF)
+  devices.msg.SK_SK.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Slovak (UTF)
+  devices.msg.SK_SK.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Slovak (UTF)
+  devices.msg.ZH_CN.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Simplified Chinese (UTF)
+  devices.msg.ZH_CN.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Simplified Chinese (UTF)
+  devices.msg.ZH_CN.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Simplified Chinese (UTF)
+  devices.msg.ZH_CN.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Simplified Chinese (UTF)
+  devices.msg.ZH_TW.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Traditional Chinese (UTF)
+  devices.msg.ZH_TW.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Traditional Chinese (UTF)
+  devices.msg.ZH_TW.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Traditional Chinese (UTF)
+  devices.msg.ZH_TW.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Traditional Chinese (UTF)
+  devices.msg.Zh_CN.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Simplified Chinese (GBK)
+  devices.msg.Zh_CN.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Simplified Chinese (GBK)
+  devices.msg.Zh_CN.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Simplified Chinese (GBK)
+  devices.msg.Zh_CN.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Simplified Chinese (GBK)
+  devices.msg.Zh_TW.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Traditional Chinese (big5)
+  devices.msg.Zh_TW.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Traditional Chinese (big5)
+  devices.msg.Zh_TW.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Traditional Chinese (big5)
+  devices.msg.Zh_TW.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Traditional Chinese (big5)
+  devices.msg.ca_ES.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Catalan
+  devices.msg.ca_ES.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Catalan
+  devices.msg.ca_ES.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Catalan
+  devices.msg.ca_ES.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Catalan
+  devices.msg.cs_CZ.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Czech
+  devices.msg.cs_CZ.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Czech
+  devices.msg.cs_CZ.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Czech
+  devices.msg.cs_CZ.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Czech
+  devices.msg.de_DE.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   German
+  devices.msg.de_DE.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   German
+  devices.msg.de_DE.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   German
+  devices.msg.de_DE.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - German
+  devices.msg.en_US.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   U.S. English
+  devices.msg.en_US.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   U.S. English
+  devices.msg.en_US.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   U.S. English
+  devices.msg.en_US.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - U.S. English
+  devices.msg.es_ES.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Spanish
+  devices.msg.es_ES.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Spanish
+  devices.msg.es_ES.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Spanish
+  devices.msg.es_ES.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Spanish
+  devices.msg.fr_FR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   French
+  devices.msg.fr_FR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   French
+  devices.msg.fr_FR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   French
+  devices.msg.fr_FR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - French
+  devices.msg.hu_HU.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Hungarian
+  devices.msg.hu_HU.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Hungarian
+  devices.msg.hu_HU.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Hungarian
+  devices.msg.hu_HU.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Hungarian
+  devices.msg.it_IT.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Italian
+  devices.msg.it_IT.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Italian
+  devices.msg.it_IT.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Italian
+  devices.msg.it_IT.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Italian
+  devices.msg.ja_JP.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Japanese IBM-eucJP
+  devices.msg.ja_JP.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Japanese IBM-eucJP
+  devices.msg.ja_JP.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Japanese IBM-eucJP
+  devices.msg.ja_JP.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Japanese IBM-eucJP
+  devices.msg.ko_KR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Korean
+  devices.msg.ko_KR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Korean
+  devices.msg.ko_KR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Korean
+  devices.msg.ko_KR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Korean
+  devices.msg.pl_PL.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Polish
+  devices.msg.pl_PL.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Polish
+  devices.msg.pl_PL.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Polish
+  devices.msg.pl_PL.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Polish
+  devices.msg.pt_BR.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Brazilian Portuguese
+  devices.msg.pt_BR.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Brazilian Portuguese
+  devices.msg.pt_BR.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Brazilian Portuguese
+  devices.msg.pt_BR.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Brazilian Portuguese
+  devices.msg.ru_RU.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Russian
+  devices.msg.ru_RU.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Russian
+  devices.msg.ru_RU.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Russian
+  devices.msg.ru_RU.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Russian
+  devices.msg.sk_SK.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Slovak
+  devices.msg.sk_SK.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Slovak
+  devices.msg.sk_SK.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Slovak
+  devices.msg.sk_SK.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Slovak
+  devices.msg.zh_CN.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Simplified Chinese
+  devices.msg.zh_CN.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Simplified Chinese
+  devices.msg.zh_CN.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Simplified Chinese
+  devices.msg.zh_CN.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Simplified Chinese
+  devices.msg.zh_TW.base.com
+                             7.2.5.0    C     F    Base Sys Device Software Msg -
+                                                   Traditional Chinese
+  devices.msg.zh_TW.diag.rte
+                             7.2.5.0    C     F    Device Diagnostics Messages -
+                                                   Traditional Chinese
+  devices.msg.zh_TW.rspc.base.com
+                             7.2.5.0    C     F    RISC PC Software Messages -
+                                                   Traditional Chinese
+  devices.msg.zh_TW.sys.mca.rte
+                             7.2.5.0    C     F    Micro Channel Bus Software Msg
+                                                   - Traditional Chinese
+  devices.pci.00100b00.diag  7.2.0.0    C     F    SYM53C896 Dual Channel PCI-2
+                                                   Ultra2 SCSI Adapter
+                                                   Diagnostics
+  devices.pci.00100b00.rte   7.2.0.0    C     F    SYM53C896 Dual Channel PCI
+                                                   SCSI I/O Controller
+  devices.pci.00100c00.diag  7.2.0.0    C     F    SYM53C895 LVD PCI SCSI I/O
+                                                   Controller Diagnostics
+  devices.pci.00100c00.rte   7.2.0.0    C     F    SYM53C895 PCI SCSI I/O
+                                                   Controller Software
+  devices.pci.00100f00.diag  7.2.3.0    C     F    SYM53C8xxA PCI SCSI I/O
+                                                   Controller Diagnostics
+  devices.pci.00100f00.rte   7.2.4.0    C     F    SYM53C8xxA PCI SCSI I/O
+                                                   Controller Software
+  devices.pci.00102100.diag  7.2.0.0    C     F    SYM53C1010 Dual Channel PCI
+                                                   Ultra3 SCSI Adapter
+                                                   Diagnostics
+  devices.pci.00102100.rte   7.2.0.0    C     F    SYM53C1010 PCI Ultra-3 SCSI
+                                                   I/O Controller Software
+  devices.pci.00105000.com   7.2.4.0    C     F    Common SAS Expansion Card
+                                                   Device Software
+  devices.pci.00105000.diag  7.2.4.0    C     F    LSI SAS Adapter Diagnostics
+  devices.pci.00105000.rte   7.2.0.0    C     F    SAS Expansion Card Device
+                                                   Software (00105000)
+  devices.pci.02105e51.X11   7.2.5.0    C     F    AIXwindows Native Display
+                                                   Adapter Software
+  devices.pci.02105e51.diag  7.2.0.0    C     F    Native Display Graphics
+                                                   Adapter Diagnostics
+  devices.pci.02105e51.rte   7.2.5.0    C     F    Native Display Adapter
+                                                   Software
+  devices.pci.14100c03.diag  7.2.0.0    C     F    PCI-XDDR Auxiliary Cache
+                                                   Adapter Diagnostics (14100c03)
+  devices.pci.14100c03.rte   7.2.0.0    C     F    PCI-XDDR Auxiliary Cache
+                                                   Adapter Software (14100c03)
+  devices.pci.14100d03.diag  7.2.0.0    C     F    PCI-XDDR Auxiliary Cache
+                                                   Adapter Diagnostics
+  devices.pci.14100d03.rte   7.2.0.0    C     F    PCI-XDDR Auxiliary Cache
+                                                   Adapter Software
+  devices.pci.14101103.diag  7.2.0.0    C     F    4-Port 10/100/1000 Base-TX
+                                                   PCI-X Adapter Diagnostics
+  devices.pci.14101103.rte   7.2.0.0    C     F    4-Port 10/100/1000 Base-TX
+                                                   PCI-X Adapter Software
+  devices.pci.14102203.diag  7.2.0.0    C     F    IBM 1 Gigabit-TX iSCSI TOE
+                                                   PCI-X Adapter Diagnostics
+  devices.pci.14102203.rte   7.2.0.0    C     F    IBM 1 Gigabit-TX iSCSI TOE
+                                                   PCI-X Adapter
+  devices.pci.14102e00.diag  7.2.4.0    C     F    IBM PCI SCSI RAID Adapter
+                                                   Diagnostics Support
+  devices.pci.14102e00.rte   7.2.5.0    C     F    IBM PCI SCSI RAID Adapter
+                                                   Device Software Support
+  devices.pci.14103302.X11   7.2.0.0    C     F    AIXwindows GXT135P Graphics
+                                                   Adapter Software
+  devices.pci.14103302.diag  7.2.0.0    C     F    GXT135P Graphics Adapter
+                                                   Diagnostics
+  devices.pci.14103302.rte   7.2.5.0    C     F    GXT135P Graphics Adapter
+                                                   Software
+  devices.pci.14106402.diag  7.2.0.0    C     F    PCI-X Quad Channel U320 SCSI
+                                                   RAID Adapter Diagnostics
+  devices.pci.14106402.rte   7.2.0.0    C     F    PCI-X Quad Channel U320 SCSI
+                                                   RAID Adapter Software
+  devices.pci.14106402.ucode
+                             7.2.0.0    C     F    PCI-X Quad Channel U320 SCSI
+                                                   RAID Adapter Microcode
+  devices.pci.14106602.diag  7.2.4.0    C     F    PCI-X Dual Channel SCSI
+                                                   Adapter Diagnostics
+  devices.pci.14106602.rte   7.2.5.0    C     F    PCI-X Dual Channel SCSI
+                                                   Adapter Device Software
+  devices.pci.14106602.ucode
+                             7.2.0.0    C     F    PCI-X Dual Channel SCSI
+                                                   Adapter Microcode
+  devices.pci.14106802.diag  7.2.0.0    C     F    Gigabit Ethernet-SX PCI-X
+                                                   Adapter Diagnostics
+  devices.pci.14106802.rte   7.2.0.0    C     F    Gigabit Ethernet-SX PCI-X
+                                                   Adapter Software
+  devices.pci.14106902.diag
+                            7.2.3.15    C     F    10/100/1000 Base-TX PCI-X
+                                                   Adapter Diagnostics
+  devices.pci.14106902.rte   7.2.4.0    C     F    10/100/1000 Base-TX PCI-X
+                                                   Adapter Software
+  devices.pci.14107802.diag  7.2.0.0    C     F    PCI-X Dual Channel Ultra320
+                                                   SCSI RAID Adapter Diagnostics
+  devices.pci.14107802.rte   7.2.5.0    C     F    PCI-X Dual Channel Ultra320
+                                                   SCSI RAID Adapter Software
+  devices.pci.14107802.ucode
+                             7.2.0.0    C     F    PCI-X Dual Channel Ultra320
+                                                   SCSI RAID Adapter Microcode
+  devices.pci.14108902.diag  7.2.0.0    C     F    10/100/1000 Base-TX PCI-X
+                                                   Adapter Diagnostics
+  devices.pci.14108902.rte   7.2.0.0    C     F    2-Port 10/100/1000 Base-TX
+                                                   PCI-X Adapter Software
+  devices.pci.14108c00.rte   7.2.3.0    C     F    ARTIC960Hx 4-Port Selectable
+                                                   PCI Adapter Runtime Software
+  devices.pci.14108d02.diag  7.2.0.0    C     F    PCI-X DDR Dual Channel SAS
+                                                   RAID Adapter Diagnostics
+  devices.pci.14108d02.rte   7.2.0.0    C     F    PCI-XDDR Dual Channel SAS RAID
+                                                   Adapter Software
+  devices.pci.1410a803.diag  7.2.0.0    C     F    4-port Asynchronous EIA-232
+                                                   PCI-E Adapter Diagnostics
+  devices.pci.1410a803.rte   7.2.0.0    C     F    4 Port Async EIA-232 PCIe
+                                                   Adapter Software
+  devices.pci.1410bd02.diag
+                            7.2.3.15    C     F    PCI-X266 3GB SAS RAID Adapter
+                                                   Diagnostics
+  devices.pci.1410bd02.rte   7.2.0.0    C     F    PCI-X266 Dual-x4 3Gb SAS RAID
+                                                   Adapter Software
+  devices.pci.1410be02.diag  7.2.0.0    C     F    PCI-X DDR Dual Channel U320
+                                                   SCSI RAID Adapter Diagnostics
+  devices.pci.1410be02.rte   7.2.0.0    C     F    PCI-XDDR Dual Channel U320
+                                                   SCSI RAID Adapter Software
+  devices.pci.1410bf02.diag  7.2.0.0    C     F    PCI-X DDR Quad Channel U320
+                                                   SCSI RAID Adapter Diagnostics
+  devices.pci.1410bf02.rte   7.2.0.0    C     F    PCI-XDDR Quad Channel U320
+                                                   SCSI RAID Adapter Software
+  devices.pci.1410c002.diag  7.2.0.0    C     F    PCI-X DDR Dual Channel U320
+                                                   SCSI Adapter Diagnostics
+  devices.pci.1410c002.rte   7.2.0.0    C     F    PCI-XDDR Dual Channel U320
+                                                   SCSI Adapter Software
+  devices.pci.1410c302.diag  7.2.0.0    C     F    PCI-X266 Ext Tri-x4 3Gb SAS
+                                                   RAID Adapter Diagnostics
+  devices.pci.1410c302.rte   7.2.0.0    C     F    PCI-X266 Ext Tri-x4 3Gb SAS
+                                                   RAID Adapter Software
+  devices.pci.1410cf02.diag  7.2.0.0    C     F    1000 Base-SX PCI-X iSCSI TOE
+                                                   Adapter Device Diagnostics
+  devices.pci.1410cf02.rte   7.2.0.0    C     F    1000 Base-SX PCI-X iSCSI TOE
+                                                   Adapter Device Software
+  devices.pci.1410d002.com   7.2.4.0    C     F    Common PCI iSCSI TOE Adapter
+                                                   Device Software
+  devices.pci.1410d002.diag  7.2.4.0    C     F    1000 Base-TX PCI-X iSCSI TOE
+                                                   Adapter Device Diagnostics
+  devices.pci.1410d002.rte   7.2.0.0    C     F    1000 Base-TX PCI-X iSCSI TOE
+                                                   Adapter Device Software
+  devices.pci.1410d302.diag  7.2.0.0    C     F    PCI-X Dual Channel Ultra320
+                                                   SCSI Adapter Diagnostics
+  devices.pci.1410d302.rte   7.2.0.0    C     F    PCI-X Dual Channel U320 SCSI
+                                                   Adapter Software
+  devices.pci.1410d402.diag  7.2.0.0    C     F    PCI-X Dual Channel U320 SCSI
+                                                   RAID Adapter Diagnostics
+  devices.pci.1410d402.rte   7.2.0.0    C     F    PCI-X Dual Channel U320 SCSI
+                                                   RAID Adapter Software
+  devices.pci.1410d403.rte   7.2.0.0    C     F    Native 1-Port Asynchronous
+                                                   EIA-232 PCI Adapter Software
+  devices.pci.1410d502.diag  7.2.0.0    C     F    PCI-X DDR Quad Channel U320
+                                                   SCSI RAID Adapter Diagnostics
+  devices.pci.1410d502.rte   7.2.0.0    C     F    PCI-XDDR Quad Channel U320
+                                                   SCSI RAID Adapter Software
+  devices.pci.1410e202.diag  7.2.0.0    C     F    IBM 1 Gigabit-SX iSCSI TOE
+                                                   PCI-X Adapter Diagnostics
+  devices.pci.1410e202.rte   7.2.0.0    C     F    IBM 1 Gigabit-SX iSCSI TOE
+                                                   PCI-X Adapter
+  devices.pci.1410e601.diag  7.2.0.0    C     F    IBM Cryptographic Accelerator
+                                                   Diagnostics
+  devices.pci.1410e601.rte   7.2.3.0    C     F    IBM Crypto Accelerator Adapter
+                                                   Software
+  devices.pci.1410eb02.diag
+                            7.2.3.15    C     F    10 Gigabit Ethernet-SR PCI-X
+                                                   2.0 DDR Adapter Diagnostics
+  devices.pci.1410eb02.rte   7.2.0.0    C     F    10 Gigabit Ethernet-SR PCI-X
+                                                   2.0 DDR Adapter Software
+  devices.pci.1410ec02.diag  7.2.0.0    C     F    10 Gigabit Ethernet-LR PCI-X
+                                                   2.0 DDR Adapter Diagnostics
+  devices.pci.1410ec02.rte   7.2.3.0    C     F    10 Gigabit Ethernet-LR PCI-X
+                                                   2.0 DDR Adapter Software
+  devices.pci.22106474.diag  7.2.0.0    C     F    USB Host Controller (22106474)
+                                                   Diagnostics
+  devices.pci.22106474.rte   7.2.5.0    C     F    USB Host Controller (22106474)
+                                                   Software
+  devices.pci.2b102725.X11   7.2.0.0    C     F    AIXwindows GXT145 Graphics
+                                                   Adapter Software
+  devices.pci.2b102725.diag  7.2.0.0    C     F    GXT145 2D Graphics Adapter
+                                                   Diagnostics
+  devices.pci.2b102725.rte   7.2.5.0    C     F    GXT145 Graphics Adapter
+                                                   Software
+  devices.pci.33103500.diag  7.2.0.0    C     F    USB Host Controller (33103500)
+                                                   Diagnostics
+  devices.pci.33103500.rte   7.2.5.0    C     F    USB Host Controller (33103500)
+                                                   Software
+  devices.pci.3310e000.diag  7.2.0.0    C     F    USB Enhanced Host Controller
+                                                   (3310e000) Diagnostics
+  devices.pci.3310e000.rte   7.2.4.0    C     F    USB Enhanced Host Controller
+                                                   Adapter (3310e000) Software
+  devices.pci.331121b9.com   7.2.0.0    C     F    IBM PCI 2-Port Multiprotocol
+                                                   Common Software
+  devices.pci.331121b9.diag  7.2.3.0    C     F    PCI 2-Port Multiprotocol
+                                                   Adapter (331121b9) Diagnostics
+  devices.pci.331121b9.rte   7.2.3.0    C     F    IBM PCI 2-Port Multiprotocol
+                                                   Device Driver
+  devices.pci.4f111100.asw   7.2.0.0    C     F    PCI 8-Port Asynchronous
+                                                   Adapter Software
+  devices.pci.4f111100.com   7.2.3.0    C     F    Common PCI Asynchronous
+                                                   Adapter Software
+  devices.pci.4f111100.diag  7.2.3.0    C     F    RISC PC PCI Async 8 Port
+                                                   Adapter Diagnostics
+  devices.pci.4f111100.rte   7.2.0.0    C     F    PCI 8-Port Asynchronous
+                                                   Adapter Software
+  devices.pci.4f111b00.asw   7.2.0.0    C     F    PCI 128-Port Asynchronous
+                                                   Adapter Software
+  devices.pci.4f111b00.diag  7.2.0.0    C     F    RISC PC PCI Async 128 Port
+                                                   Adapter Diagnostics
+  devices.pci.4f111b00.rte   7.2.0.0    C     F    PCI 128-Port Asynchronous
+                                                   Adapter Software
+  devices.pci.4f11c800.diag  7.2.3.0    C     F    2-port Asynchronous EIA-232
+                                                   PCI Adapter Diagnostics
+  devices.pci.4f11c800.rte   7.2.5.0    C     F    2-Port Asynchronous EIA-232
+                                                   PCI Adapter Software
+  devices.pci.77101223.com   7.2.4.0    C     F    PCI FC Adapter (77101223)
+                                                   Common Software
+  devices.pci.77101223.diag  7.2.5.1    C     F    PCI FC Adapter (77101223)
+                                                   Diagnostics
+  devices.pci.77101223.rte   7.2.0.0    C     F    PCI FC Adapter (77101223)
+                                                   Runtime Software
+  devices.pci.77102224.com   7.2.5.0    C     F    PCI-X FC Adapter (77102224)
+                                                   Common Software
+  devices.pci.77102224.diag  7.2.0.0    C     F    PCI-X FC Adapter (77102224)
+                                                   Diagnostics
+  devices.pci.77102224.rte   7.2.0.0    C     F    PCI-X FC Adapter (77102224)
+                                                   Runtime Software
+  devices.pci.77102e01.diag  7.2.0.0    C     F    1000 Base-TX PCI-X iSCSI TOE
+                                                   Adapter Device Diagnostics
+  devices.pci.77102e01.rte   7.2.0.0    C     F    PCI-X 1000 Base-TX iSCSI TOE
+                                                   Adapter Device Software
+  devices.pci.99172604.diag  7.2.0.0    C     F    USB Enhanced Host Controller
+                                                   (99172604) Diagnostics
+  devices.pci.99172604.rte   7.2.3.0    C     F    USB Enhanced Host Controller
+                                                   Adapter (99172604) Software
+  devices.pci.99172704.diag  7.2.0.0    C     F    USB Host Controller (99172704)
+                                                   Diagnostics
+  devices.pci.99172704.rte   7.2.5.0    C     F    USB Host Controller (99172704)
+                                                   Software
+  devices.pci.a8135201.diag  7.2.0.0    C     F    2-port Asynchronous EIA-232
+                                                   PCI Adapter Diagnostics
+  devices.pci.a8135201.rte   7.2.0.0    C     F    Native 2-Port Asynchronous
+                                                   EIA-232 PCI Adapter Software
+  devices.pci.c1110358.diag  7.2.0.0    C     F    USB Open Host Controller
+                                                   Adapter Diagnostics
+  devices.pci.c1110358.rte   7.2.5.0    C     F    USB Host Controller (c1110358)
+                                                   Software
+  devices.pci.df1000f7.com   7.2.5.0    C     F    Common PCI FC Adapter Device
+                                                   Software
+  devices.pci.df1000f7.diag  7.2.5.0    C     F    PCI FC Adapter Device
+                                                   Diagnostics
+  devices.pci.df1000f7.rte   7.2.0.0    C     F    PCI FC Adapter Device Software
+  devices.pci.df1000f9.diag  7.2.0.0    C     F    64-bit PCI FC Adapter Device
+                                                   Diagnostics
+  devices.pci.df1000f9.rte   7.2.0.0    C     F    64-bit PCI FC Adapter Device
+                                                   Software
+  devices.pci.df1000fa.diag  7.2.0.0    C     F    FC PCI-X Adapter Device
+                                                   Diagnostics
+  devices.pci.df1000fa.rte   7.2.0.0    C     F    FC PCI-X Adapter Device
+                                                   Software
+  devices.pci.df1000fd.diag  7.2.0.0    C     F    FC PCI-X Adapter Device
+                                                   Diagnostics
+  devices.pci.df1000fd.rte   7.2.0.0    C     F    4Gb PCI-X FC Adapter Device
+                                                   Software
+  devices.pci.df1023fd.diag  7.2.0.0    C     F    4Gb PCI-X FC Adapter
+                                                   (df1023fd) Device Diagnostics
+  devices.pci.df1023fd.rte   7.2.0.0    C     F    4Gb PCI-X FC Adapter
+                                                   (df1023fd) Device Software
+  devices.pci.df1080f9.diag  7.2.0.0    C     F    PCI-X FC Adapter Device
+                                                   Diagnostics
+  devices.pci.df1080f9.rte   7.2.0.0    C     F    PCI-X FC Adapter Device
+                                                   Software
+  devices.pci.e414a816.diag
+                            7.2.3.15    C     F    Gigabit Ethernet Adapter
+                                                   Diagnostics
+  devices.pci.e414a816.rte   7.2.3.0    C     F    Gigabit Ethernet-SX Adapter
+                                                   Software
+  devices.pci.f41a0100.rte   7.2.4.0    C     F    Virtio NIC Adapter (f41a0100)
+  devices.pci.f41a0800.rte  7.2.2.15    C     F    Virtio SCSI Adapter (f41a0800)
+  devices.pci.pci.rte        7.2.0.0    C     F    PCI Bus Bridge Software (CHRP)
+  devices.pciex.001072001410ea03.diag
+                             7.2.0.0    C     F    PCIe2 SAS Adapter Dual-port
+                                                   6Gb Device Diagnostics
+  devices.pciex.001072001410ea03.rte
+                             7.2.0.0    C     F    PCIe2 SAS Adapter Dual-port
+                                                   6Gb Device Software
+  devices.pciex.001072001410f603.diag
+                             7.2.0.0    C     F    PCIe2 SAS Adapter Quad-port
+                                                   6Gb Device Diagnostics
+  devices.pciex.001072001410f603.rte
+                             7.2.0.0    C     F    PCIe2 SAS Adapter Quad-port
+                                                   6Gb Device Software
+  devices.pciex.1410110614101106.diag
+                             7.2.5.0    C     F    IBM 4769 PCIe3 Cryptographic
+                                                   Coprocessor (1410110614101106)
+                                                   Diagnostics Software
+  devices.pciex.1410110614101106.rte
+                             7.2.5.0    C     F    IBM 4769 PCIe3 Cryptographic
+                                                   Coprocessor (1410110614101106)
+                                                   Device Software
+  devices.pciex.14103903.diag
+                             7.2.0.0    C     F    PCI Express 3Gb SAS RAID
+                                                   Adapter Diagnostics
+  devices.pciex.14103903.rte
+                             7.2.0.0    C     F    PCI Express 3GB SAS RAID
+                                                   Adapter Software
+  devices.pciex.14103d03.diag
+                            7.2.3.15    C     F    PCI Express 6GB SAS RAID
+                                                   Adapter Diagnostics
+  devices.pciex.14103d03.rte
+                             7.2.0.0    C     F    PCI Express 6GB SAS RAID
+                                                   Adapter Software
+  devices.pciex.14103f03.diag
+                            7.2.3.15    C     F    2-Port Gigabit Ethernet-SX
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.14103f03.rte
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet-SX
+                                                   PCI-Express Adapter Software
+  devices.pciex.14104003.diag
+                             7.2.0.0    C     F    2-Port 10/100/1000 Base-TX
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.14104003.rte
+                             7.2.0.0    C     F    2-Port 10/100/1000 Base-TX
+                                                   PCI-Express Adapter Software
+  devices.pciex.14104a03.diag
+                             7.2.0.0    C     F    PCIe3 6GB SAS RAID Adapter
+                                                   Diagnostics
+  devices.pciex.14104a03.rte
+                             7.2.0.0    C     F    PCIe3 6GB SAS RAID Adapter
+                                                   Software
+  devices.pciex.14104b0414104b04.com
+                             7.2.4.0    C     F    Common PCIe FPGA Accelerator
+                                                   Adapter Device Software
+  devices.pciex.14104b0414104b04.diag
+                            7.2.3.15    C     F    PCIe FPGA Accelrator Adapter
+                                                   Diagnostics
+  devices.pciex.14104b0414104b04.rte
+                             7.2.0.0    C     F    PCIe FPGA Accelrator Adapter
+                                                   Device Software
+  devices.pciex.1410660414100000.diag
+                             7.2.5.1    C     F    IBM 4767 PCIe3 Cryptographic
+                                                   Coprocessor (1410660414100000)
+                                                   Diagnostics Software
+  devices.pciex.1410660414100000.rte
+                             7.2.5.1    C     F    IBM 4767 PCIe3 Cryptographic
+                                                   Coprocessor (1410660414100000)
+                                                   Device Software
+  devices.pciex.14106803.diag
+                             7.2.0.0    C     F    4-Port 10/100/1000 Base-TX PCI
+                                                   Express Adapter Diagnostics
+  devices.pciex.14106803.rte
+                             7.2.0.0    C     F    4-Port 10/100/1000 Base-TX
+                                                   PCI-Express Adapter Software
+  devices.pciex.14107a0314107b03.diag
+                             7.2.5.1    C     F    IBM Y4 PCI-E Cryptographic
+                                                   CoProcessor Model 4765
+                                                   (14107a0314107b03) Diagnostics
+  devices.pciex.14107a0314107b03.rte
+                             7.2.5.1    C     F    IBM Y4 PCI-E Cryptographic
+                                                   Coprocessor (14107a0314107b03)
+                                                   Device Software
+  devices.pciex.151438c1.diag
+                             7.2.3.0    C     F    PCIe Async EIA-232 Controller
+                                                   Diagnostics
+  devices.pciex.151438c1.rte
+                             7.2.0.0    C     F    PCIe Async EIA-232 Controller
+  devices.pciex.2514300014108c03.diag
+                            7.2.3.15    C     F    10 Gigabit Ethernet-SR PCI
+                                                   Express Adapter Diagnostics
+                                                   Software (2514300014108c03)
+  devices.pciex.2514300014108c03.rte
+                             7.2.0.0    C     F    10 Gigabit Ethernet-SR
+                                                   PCI-Express Host Bus Adapter
+  devices.pciex.251430001410a303.diag
+                             7.2.0.0    C     F    10 Gigabit Ethernet-CX4 PCI
+                                                   Express Adapter Diagnostics
+                                                   Software (251430001410a303)
+  devices.pciex.251430001410a303.rte
+                             7.2.0.0    C     F    10 Gigabit Ethernet-CX4
+                                                   PCI-Express Host Bus Adapter
+  devices.pciex.2514310025140100.diag
+                             7.2.0.0    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Host Bus Adapter
+                                                   Diagnostics Software
+                                                   (2514310025140100)
+  devices.pciex.2514310025140100.rte
+                             7.2.0.0    C     F    10 Gigabit Ethernet
+                                                   PCI-Express Host Bus Adapter
+  devices.pciex.4c10418214109006.diag
+                             7.2.5.0    C     F    PCIe2 USB 3.0 xHCI 2-Port
+                                                   Adapter Device Diagnostics
+  devices.pciex.4c10418214109006.rte
+                             7.2.5.0    C     F    PCIe2 USB 3.0 xHCI 2-Port
+                                                   Adapter Device Software
+  devices.pciex.4c10418214109e04.diag
+                             7.2.5.0    C     F    PCIe2 USB 3.0 xHCI 4-Port
+                                                   Adapter Device Diagnostics
+  devices.pciex.4c10418214109e04.rte
+                             7.2.0.0    C     F    PCIe2 USB 3.0 xHCI 4-Port
+                                                   Adapter Device Software
+  devices.pciex.4c1041821410b204.diag
+                             7.2.0.0    C     F    Integrated PCIe2 USB 3.0 xHCI
+                                                   Controller Device Diagnostics
+  devices.pciex.4c1041821410b204.rte
+                             7.2.0.0    C     F    Integrated PCIe2 USB 3.0 xHCI
+                                                   Controller Device Software
+  devices.pciex.4f11f60014102204.diag
+                             7.2.0.0    C     F    PCIe 2-port Async EIA-232
+                                                   Adapter Diagnostics
+  devices.pciex.4f11f60014102204.rte
+                             7.2.0.0    C     F    PCIe 2-port Async EIA-232
+                                                   Adapter
+  devices.pciex.771000801410b003.diag
+                             7.2.0.0    C     F    10 Gb FCoE PCI Express Dual
+                                                   Port Adapter Diagnostics
+  devices.pciex.771000801410b003.rte
+                             7.2.4.0    C     F    10 Gb Ethernet-SR PCI Express
+                                                   Dual Port Adapter Software
+  devices.pciex.7710008077108001.diag
+                             7.2.0.0    C     F    10 Gb FCoE PCI Express Dual
+                                                   Port Adapter Diagnostics
+  devices.pciex.7710008077108001.rte
+                             7.2.0.0    C     F    10 Gb Ethernet PCI Express
+                                                   Dual Port Adapter Software
+  devices.pciex.771001801410af03.diag
+                             7.2.5.1    C     F    10 Gb FCoE PCI Express Dual
+                                                   Port Adapter
+                                                   (771001801410af03) Diagnostics
+  devices.pciex.771001801410af03.rte
+                             7.2.4.0    C     F    10 Gb FCoE PCI Express Dual
+                                                   Port Adapter
+                                                   (771001801410af03) Device
+                                                   Software
+  devices.pciex.7710018077107f01.diag
+                             7.2.0.0    C     F    10 Gb FCoE PCIe Blade
+                                                   Expansion Card
+                                                   (7710018077107f01) Diagnostics
+  devices.pciex.7710018077107f01.rte
+                             7.2.0.0    C     F    10 Gb FCoE PCIe Blade
+                                                   Expansion Card
+                                                   (7710018077107f01) Device
+                                                   Software
+  devices.pciex.77103224.diag
+                             7.2.0.0    C     F    PCI Express FC Adapter
+                                                   Diagnostics (77103224)
+  devices.pciex.77103224.rte
+                             7.2.0.0    C     F    PCI Express 4Gb FC Adapter
+                                                   (77103224) Device Software
+  devices.pciex.77103225141004f3.diag
+                             7.2.0.0    C     F    8Gb 2-Port PCIe2 FC
+                                                   (77103225141004f3) Diagnostics
+                                                   Software
+  devices.pciex.77103225141004f3.rte
+                             7.2.0.0    C     F    8Gb 2-Port PCIe2 FC
+                                                   (77103225141004f3) Runtime
+                                                   Software
+  devices.pciex.7710322514101e04.diag
+                             7.2.0.0    C     F    Low Profile 8Gb 4-Port PCIe2
+                                                   FC (7710322514101e04)
+                                                   Diagnostic Software
+  devices.pciex.7710322514101e04.rte
+                             7.2.4.0    C     F    Low Profile 8Gb 4-Port PCIe2
+                                                   FC (7710322514101e04) Device
+                                                   Software
+  devices.pciex.7710322577106501.diag
+                             7.2.0.0    C     F    4Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106501)
+                                                   Diagnostics
+  devices.pciex.7710322577106501.rte
+                             7.2.0.0    C     F    4Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106501) Device
+                                                   Software
+  devices.pciex.7710322577106601.diag
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106601)
+                                                   Diagnostic Software
+  devices.pciex.7710322577106601.rte
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106601) Device
+                                                   Software
+  devices.pciex.7710322577106801.diag
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106801)
+                                                   Diagnostics
+  devices.pciex.7710322577106801.rte
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577106801) Device
+                                                   Software
+  devices.pciex.7710322577107501.diag
+                             7.2.0.0    C     F    Dual Port 8Gb FC Mezzanine
+                                                   Card (7710322577107501)
+                                                   Diagnostic Software
+  devices.pciex.7710322577107501.rte
+                             7.2.0.0    C     F    Dual Port 8Gb FC Mezzanine
+                                                   Card (7710322577107501) Device
+                                                   Software
+  devices.pciex.7710322577107601.diag
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577107601)
+                                                   Diagnostics
+  devices.pciex.7710322577107601.rte
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (7710322577107601) Device
+                                                   Software
+  devices.pciex.7710612214105006.com
+                             7.2.5.2    C     F    Common PCIe3 FC Adapter Device
+                                                   Software
+  devices.pciex.7710612214105006.diag
+                             7.2.5.1    C     F    16Gb FC PCIe3 2 Ports
+                                                   (7710612214105006) Diagnostic
+                                                   Software
+  devices.pciex.7710612214105006.rte
+                             7.2.5.0    C     F    16Gb FC PCIe3 2 Port Adapter
+                                                   Device Software
+  devices.pciex.7710712014109e06.diag
+                             7.2.5.0    C     F    16Gb FC PCIe4 4 Port
+                                                   (7710712014109e06) Diagnostic
+                                                   Software
+  devices.pciex.7710712014109e06.rte
+                             7.2.5.0    C     F    16Gb FC PCIe3 4 Port Adapter
+                                                   Device Software
+  devices.pciex.7710812214105106.diag
+                             7.2.5.0    C     F    32Gb FC PCIe4 2 Port
+                                                   (7710812214105106) Diagnostic
+                                                   Software
+  devices.pciex.7710812214105106.rte
+                             7.2.5.0    C     F    32Gb FC PCIe4 2 Port Adapter
+                                                   Device Software
+  devices.pciex.8680c71014108003.diag
+                            7.2.3.15    C     F    10 Gigabit Ethernet-LR
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.8680c71014108003.rte
+                            7.2.3.16    C     F    10 Gigabit Ethernet-LR
+                                                   PCI-Express Adapter Software
+  devices.pciex.a219100714100904.diag
+                             7.2.0.0    C     F    Int Multifunction Card w/ SR
+                                                   Optical 10GbE Adapter
+                                                   Diagnostics
+  devices.pciex.a219100714100904.rte
+                             7.2.0.0    C     F    Int Multifunction Card w/ SR
+                                                   Optical 10GbE Adapter Software
+  devices.pciex.a219100714100a04.diag
+                             7.2.0.0    C     F    Int Multifunction Card w/
+                                                   Copper SFP+ 10GbE Adapter
+                                                   Diagnostics
+  devices.pciex.a219100714100a04.rte
+                             7.2.0.0    C     F    Int Multifunction Card w/
+                                                   Copper SFP+ 10GbE Adapter
+                                                   Software
+  devices.pciex.a21910071410d003.diag
+                            7.2.3.15    C     F    PCIe2 2-port 10GbE SR Adapter
+                                                   Diagnostics
+  devices.pciex.a21910071410d003.rte
+                             7.2.5.0    C     F    PCIe2 2-port 10GbE SR Adapter
+                                                   Software
+  devices.pciex.a21910071410d103.diag
+                             7.2.0.0    C     F    PCIe2 2-port 10GbE SFP Copper
+                                                   Adapter Diagnostics
+  devices.pciex.a21910071410d103.rte
+                             7.2.0.0    C     F    PCIe2 2-port 10GbE SFP+Copper
+                                                   Adapter Software
+  devices.pciex.a21910071410d203.diag
+                             7.2.0.0    C     F    Int Multifunction Card w/
+                                                   Base-TX Adapter Diagnostics
+  devices.pciex.a21910071410d203.rte
+                             7.2.0.0    C     F    Int Multifunction Card w/
+                                                   Base-TX 10/100/1000 1GbE
+                                                   Adapter Software
+  devices.pciex.a2191007df1033e7.diag
+                             7.2.0.0    C     F    10GbE 4 port PCIe2 Mezz
+                                                   Adapter Diagnostics
+  devices.pciex.a2191007df1033e7.rte
+                             7.2.0.0    C     F    10GbE 4-port PCIe2 Mezz
+                                                   Adapter Software
+  devices.pciex.b31503101410b504.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b31503101410b504)
+  devices.pciex.b31503101410b504.rte
+                             7.2.1.0    C     F    RoCE Host Bus Adapter
+                                                   (b31503101410b504)
+  devices.pciex.b31507101410e704.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b31507101410e704)
+  devices.pciex.b31507101410e704.rte
+                             7.2.3.0    C     F    RoCE Host Bus Adapter
+                                                   (b31507101410e704)
+  devices.pciex.b31507101410eb04.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b31507101410eb04)
+  devices.pciex.b31507101410eb04.rte
+                             7.2.3.0    C     F    RoCE Host Bus Adapter
+                                                   (b31507101410eb04)
+  devices.pciex.b31513101410f704.diag
+                             7.2.4.0    C     F    100Gbit RoCE PCIe3 Adapter
+                                                   Diagnostics (b31513101410f704)
+  devices.pciex.b31513101410f704.rte
+                             7.2.5.0    C     F    PCIe3 100Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b31514101410f704.diag
+                            7.2.2.15    C     F    PCIe3 100Gbit 2-port RoCE
+                                                   Adapter Diagnostics
+  devices.pciex.b31514101410f704.rte
+                             7.2.5.0    C     F    PCIe3 100Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b315151014101e06.diag
+                             7.2.4.0    C     F    PCIe3 25Gbit 2-port RoCE
+                                                   Adapter Diagnostics
+  devices.pciex.b315151014101e06.rte
+                             7.2.5.0    C     F    PCIe3 25Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b315151014101f06.diag
+                             7.2.4.0    C     F    PCIe3 10Gbit 2-port RoCE
+                                                   Adapter Diagnostics
+  devices.pciex.b315151014101f06.rte
+                             7.2.5.0    C     F    PCIe3 10Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b315161014101e06.diag
+                            7.2.2.15    C     F    PCIe3 25Gbit 2-port RoCE
+                                                   Adapter VF Diagnostics
+  devices.pciex.b315161014101e06.rte
+                             7.2.5.0    C     F    PCIe3 25Gbit 2-port RoCE
+                                                   Adapter VF Software
+  devices.pciex.b315161014101f06.diag
+                            7.2.2.15    C     F    PCIe3 10Gbit 2-port RoCE
+                                                   Adapter VF Diagnostics
+  devices.pciex.b315161014101f06.rte
+                             7.2.5.0    C     F    PCIe3 10Gbit 2-port RoCE
+                                                   Adapter VF Software
+  devices.pciex.b315191014103506.diag
+                             7.2.4.0    C     F    2-port 100Gbit RoCE PCIe4
+                                                   Adapter Diagnostics Software
+  devices.pciex.b315191014103506.rte
+                             7.2.5.1    C     F    PCIe4 100Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b3151a1014103506.diag
+                            7.2.3.15    C     F    2-port 100Gbit RoCE PCIe4
+                                                   Adapter Diagnostics Software
+  devices.pciex.b3151a1014103506.rte
+                             7.2.5.0    C     F    PCIe4 100Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b3151d101410a606.diag
+                             7.2.5.0    C     F    PCIe4 100Gbit 2-port RoCE
+                                                   Adapter Diagnostics Software
+  devices.pciex.b3151d101410a606.rte
+                             7.2.5.0    C     F    PCIe4 100Gbit 2-port RoCE
+                                                   Adapter Software
+  devices.pciex.b3153c67.diag
+                             7.2.0.0    C     F    PCIe Dual Port HCA QDR
+                                                   Infiniband Device Diagnostics
+  devices.pciex.b3153c67.rte
+                             7.2.0.0    C     F    4X PCI-E QDR Infiniband Device
+                                                   Driver
+  devices.pciex.b3154a63.diag
+                             7.2.5.1    C     F    PCI-E 4X DDR Infiniband Device
+                                                   Diagnostics
+  devices.pciex.b3154a63.rte
+                             7.2.4.0    C     F    4X PCI-E DDR Infiniband Device
+                                                   Driver
+  devices.pciex.b315506714101604.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b315506714101604)
+  devices.pciex.b315506714101604.rte
+                             7.2.1.0    C     F    RoCE Host Bus Adapter
+                                                   (b315506714101604)
+  devices.pciex.b315506714106104.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b315506714106104)
+  devices.pciex.b315506714106104.rte
+                             7.2.1.0    C     F    RoCE Host Bus Adapter
+                                                   (b315506714106104)
+  devices.pciex.b3155067b3157265.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b3155067b3157265)
+  devices.pciex.b3155067b3157265.rte
+                             7.2.1.0    C     F    RoCE Host Bus Adapter
+                                                   (b3155067b3157265)
+  devices.pciex.b3155067b3157365.diag
+                             7.2.0.0    C     F    RoCE Host Bus Adapter
+                                                   Diagnostics (b3155067b3157365)
+  devices.pciex.b3155067b3157365.rte
+                             7.2.1.0    C     F    RoCE Host Bus Adapter
+                                                   (b3155067b3157365)
+  devices.pciex.df1000e214105e04.diag
+                             7.2.0.0    C     F    GX++ 16Gb FC 2 Port Adapter
+                                                   Diagnostics
+  devices.pciex.df1000e214105e04.rte
+                             7.2.5.0    C     F    GX++ 16Gb FC 2 Port Adapter
+                                                   Device Software
+  devices.pciex.df1000e21410f103.diag
+                             7.2.0.0    C     F    16Gb FC PCIe2 2 Port Adapter
+                                                   Diagnostics
+  devices.pciex.df1000e21410f103.rte
+                             7.2.5.0    C     F    16Gb FC PCIe2 2 Port Adapter
+                                                   Device Software
+  devices.pciex.df1000e2df1002e2.diag
+                             7.2.0.0    C     F    PCIe2 2-Port 16Gb FC Mezzanine
+                                                   Adapter Diagnostics
+  devices.pciex.df1000e2df1002e2.rte
+                             7.2.0.0    C     F    PCIe2 2-Port 16Gb FC Mezzanine
+                                                   Adapter Device Software
+  devices.pciex.df1000e2df1082e2.diag
+                             7.2.0.0    C     F    4-Port 16Gb FC Mezzanine
+                                                   Adapter Device Diagnostics
+  devices.pciex.df1000e2df1082e2.rte
+                             7.2.0.0    C     F    4-Port 16Gb FC Mezzanine
+                                                   Adapter Device Software
+  devices.pciex.df1000e314101406.diag
+                            7.2.3.15    C     F    16Gb FC PCIe3 4 Port Adapter
+                                                   Diagnostics
+  devices.pciex.df1000e314101406.rte
+                             7.2.5.0    C     F    16Gb FC PCIe3 4 Port Adapter
+                                                   Device Software
+  devices.pciex.df1000e314101506.diag
+                            7.2.3.15    C     F    32Gb FC PCIe3 2 Port Adapter
+                                                   Diagnostics
+  devices.pciex.df1000e314101506.rte
+                             7.2.5.0    C     F    32Gb FC PCIe3 2 Port Adapter
+                                                   Device Software
+  devices.pciex.df1000e31410a006.diag
+                             7.2.5.0    C     F    16Gb FC PCIe3 2 Port Adapter
+                                                   Diagnostics
+  devices.pciex.df1000e31410a006.rte
+                             7.2.5.0    C     F    16Gb FC PCIe3 2 Port Adapter
+                                                   Device Software
+  devices.pciex.df1000f114100104.diag
+                             7.2.0.0    C     F    8Gb FC PCI Express Quad Port
+                                                   Adapter Device Diagnostics
+  devices.pciex.df1000f114100104.rte
+                             7.2.4.0    C     F    8Gb FC PCI Express Quad Port
+                                                   Adapter Device Software
+  devices.pciex.df1000f114108a03.diag
+                             7.2.0.0    C     F    8Gb PCI-E FC Adapter
+                                                   (df1000f114108a03) Device
+                                                   Diagnostics
+  devices.pciex.df1000f114108a03.rte
+                             7.2.4.0    C     F    8Gb FC PCI Express Dual Port
+                                                   Adapter Device Software
+  devices.pciex.df1000f1df1024f1.diag
+                             7.2.0.0    C     F    8Gb PCI-E FC Adapter
+                                                   (df1000f1df1024f1) Device
+                                                   Diagnostics
+  devices.pciex.df1000f1df1024f1.rte
+                             7.2.0.0    C     F    8Gb PCIe FC Blade Expansion
+                                                   Card (df1000f1df1024f1) Device
+                                                   Software
+  devices.pciex.df1000fe.diag
+                             7.2.0.0    C     F    4Gb FC PCI Express Adapter
+                                                   Device Diagnostics
+  devices.pciex.df1000fe.rte
+                             7.2.0.0    C     F    4Gb FC PCI Express Adapter
+                                                   Device Software
+  devices.pciex.df1020e214100f04.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ SR Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214100f04.rte
+                             7.2.5.1    C     F    PCIe3 10GbE SFP+ SR Adapter
+                                                   Software
+  devices.pciex.df1020e214103304.diag
+                            7.1.1.15    C     F    PCIe2 10GbE Mezz Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214103304.rte
+                            7.1.1.15    C     F    PCIe2 10GbE Mezz Adapter
+                                                   Software
+  devices.pciex.df1020e214103604.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ SR 4-port
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214103604.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ SR 4-port
+                                                   Adapter Software
+  devices.pciex.df1020e214103804.diag
+                             7.2.0.0    C     F    PCIe2 10GBaseT 4-port Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214103804.rte
+                             7.2.5.1    C     F    PCIe2 10GBaseT 4-port Adapter
+                                                   Software
+  devices.pciex.df1020e214103904.diag
+                             7.2.0.0    C     F    PCIe2 10GbE SFP+ Cu 4-port
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214103904.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ Cu 4-port
+                                                   Adapter Software
+  devices.pciex.df1020e214103b04.diag
+                             7.2.0.0    C     F    PCIe2 10GBaseT 4-port Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214103b04.rte
+                             7.2.5.1    C     F    PCIe2 10GBaseT 4-port Adapter
+                                                   Software
+  devices.pciex.df1020e214103c04.diag
+                             7.2.5.0    C     F    PCIe2 10/100/1000 Base-TX
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214103c04.rte
+                             7.2.5.1    C     F    PCIe3 10/100/1000 Base-TX
+                                                   Adapter Software
+  devices.pciex.df1020e214103d04.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ Cu 4-port
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214103d04.rte
+                             7.2.5.1    C     F    PCIe3 10GbE SFP+ Cu Adapter
+                                                   Software
+  devices.pciex.df1020e214103f04.diag
+                             7.2.5.0    C     F    PCIe2 1GbaseT SFP+ Cu 4-port
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214103f04.rte
+                             7.2.5.1    C     F    PCIe3 100/1000 Base-TX Adapter
+                                                   Software
+  devices.pciex.df1020e214104004.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ LR 4-port
+                                                   Adapter Diagnostics
+  devices.pciex.df1020e214104004.rte
+                             7.2.5.1    C     F    PCIe3 10GbE SFP+ LR Adapter
+                                                   Software
+  devices.pciex.df1020e214104204.diag
+                             7.2.5.0    C     F    PCIe2 100/1000 Base-TX Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214104204.rte
+                             7.2.5.1    C     F    PCIe3 100/1000 Base-TX Adapter
+                                                   Software
+  devices.pciex.df1020e214105104.diag
+                             7.2.0.0    C     F    PCIe2 10GbE Mezz Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214105104.rte
+                             7.2.5.1    C     F    PCIe2 10GbE Mezz Adapter
+                                                   Software
+  devices.pciex.df1020e214105d04.diag
+                             7.2.0.0    C     F    PCIe2 10GbE 2-port GX++ Gen2
+                                                   Converged Network Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e214105d04.rte
+                             7.2.5.1    C     F    PCIe2 10GbE 2-port GX++ Gen2
+                                                   Converged Network Adapter
+                                                   Software
+  devices.pciex.df1020e21410e304.diag
+                             7.2.5.0    C     F    PCIe3 4-Port 10GbE SR Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e21410e304.rte
+                            7.2.3.15    C     F    PCIe3 4-Port 10GbE SR Adapter
+  devices.pciex.df1020e21410e404.diag
+                             7.2.5.0    C     F    PCIe3 4-Port 10GbE CU Adapter
+                                                   Diagnostics
+  devices.pciex.df1020e21410e404.rte
+                            7.2.3.15    C     F    PCIe3 4-Port 10GbE CU Adapter
+  devices.pciex.df1028e214100f04.diag
+                             7.2.0.0    C     F    PCIe2 10GbE SFP+ SR VF Adapter
+                                                   Diagnostics
+  devices.pciex.df1028e214100f04.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ SR VF Adapter
+                                                   Software
+  devices.pciex.df1028e214103604.diag
+                             7.2.0.0    C     F    PCIe2 10GbE SFP+ SR 4-port VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103604.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ SR 4-port VF
+                                                   Adapter Software
+  devices.pciex.df1028e214103804.diag
+                             7.2.0.0    C     F    PCIe2 10GBaseT 4-port VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103804.rte
+                             7.2.5.1    C     F    PCIe2 10GBaseT 4-port VF
+                                                   Adapter Software
+  devices.pciex.df1028e214103904.diag
+                             7.2.0.0    C     F    PCIe2 10GbE SFP+ Cu 4-port VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103904.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ Cu 4-port VF
+                                                   Adapter Software
+  devices.pciex.df1028e214103b04.diag
+                             7.2.0.0    C     F    PCIe2 10GBaseT 4-port VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103b04.rte
+                             7.2.5.1    C     F    PCIe2 10GBaseT 4-port VF
+                                                   Adapter Software
+  devices.pciex.df1028e214103c04.diag
+                             7.2.0.0    C     F    PCIe2 10/100/1000 Base-TX VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103c04.rte
+                             7.2.5.1    C     F    PCIe2 10/100/1000 Base-TX VF
+                                                   Adapter Software
+  devices.pciex.df1028e214103d04.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ Cu 4-port VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214103d04.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ Cu VF Adapter
+                                                   Software
+  devices.pciex.df1028e214103f04.diag
+                             7.2.0.0    C     F    PCIe2 1GbaseT SFP+ Cu 4-port
+                                                   VF Adapter Diagnostics
+  devices.pciex.df1028e214103f04.rte
+                             7.2.5.1    C     F    PCIe2 100/1000 Base-TX VF
+                                                   Adapter Software
+  devices.pciex.df1028e214104004.diag
+                             7.2.5.0    C     F    PCIe2 10GbE SFP+ LR VF Adapter
+                                                   Diagnostics
+  devices.pciex.df1028e214104004.rte
+                             7.2.5.1    C     F    PCIe2 10GbE SFP+ LR VF Adapter
+                                                   Software
+  devices.pciex.df1028e214104204.diag
+                             7.2.0.0    C     F    PCIe2 100/1000 Base-TX VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e214104204.rte
+                             7.2.5.1    C     F    PCIe2 100/1000 Base-TX VF
+                                                   Adapter Software
+  devices.pciex.df1028e21410e304.diag
+                             7.2.5.0    C     F    PCIe3 4-Port 10GbE SR VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e21410e304.rte
+                            7.2.3.15    C     F    PCIe3 4-Port 10GbE SR VF
+                                                   Adapter Software
+  devices.pciex.df1028e21410e404.diag
+                             7.2.5.0    C     F    PCIe3 4-Port 10GbE CU VF
+                                                   Adapter Diagnostics
+  devices.pciex.df1028e21410e404.rte
+                            7.2.3.15    C     F    PCIe3 4-Port 10GbE CU VF
+                                                   Adapter Software
+  devices.pciex.df1060e214101004.diag
+                             7.2.0.0    C     F    PCIe2 10GbE FCoE 4 Port
+                                                   Adapter Diagnostics
+  devices.pciex.df1060e214101004.rte
+                             7.2.5.0    C     F    10Gb FCoE PCIe2 4 Port Adapter
+                                                   Device Software
+  devices.pciex.df1060e214103404.com
+                             7.2.5.2    C     F    Common PCIe3 FC Adapter Device
+                                                   Software
+  devices.pciex.df1060e214103404.diag
+                             7.2.5.0    C     F    PCIe2 10Gb 4-Port FCoE
+                                                   Mezzanine Adapter Device
+                                                   Diagnostics
+  devices.pciex.df1060e214103404.rte
+                             7.2.0.0    C     F    PCIe2 10Gb 4-Port FCoE
+                                                   Mezzanine Adapter Device
+                                                   Software
+  devices.pciex.df1060e214103704.diag
+                             7.2.0.0    C     F    Integrated 10Gb 4-Port FCoE
+                                                   Adapter Device Diagnostics
+  devices.pciex.df1060e214103704.rte
+                             7.2.5.0    C     F    Integrated 10Gb 4-Port FCoE
+                                                   Adapter Device Software
+  devices.pciex.df1060e214103a04.diag
+                             7.2.0.0    C     F    Integrated 10Gb Cu 4-Port FCoE
+                                                   Adapter Device Diagnostics
+  devices.pciex.df1060e214103a04.rte
+                             7.2.5.0    C     F    Integrated 10Gb Cu 4-Port FCoE
+                                                   Adapter Device Software
+  devices.pciex.df1060e214103e04.diag
+                             7.2.0.0    C     F    PCIe2 10GbE Cu 4-port FCoE
+                                                   Adapter Diagnostics
+  devices.pciex.df1060e214103e04.rte
+                             7.2.5.0    C     F    PCIe2 10Gb Cu 4-Port FCoE
+                                                   Adapter Device Software
+  devices.pciex.df1060e214104104.diag
+                             7.2.0.0    C     F    PCIe2 10Gb LR 4-Port FCoE
+                                                   Adapter Device Diagnostics
+  devices.pciex.df1060e214104104.rte
+                             7.2.5.0    C     F    PCIe2 10Gb LR 4-Port FCoE
+                                                   Adapter Device Software
+  devices.pciex.df1060e214105204.diag
+                             7.2.0.0    C     F    PCIe2 10GbE FCoE Mezz Adapter
+                                                   Diagnostics
+  devices.pciex.df1060e214105204.rte
+                             7.2.0.0    C     F    PCIe2 10Gb FCoE Mezzanine
+                                                   Adapter Device Software
+  devices.pciex.df1060e214105f04.diag
+                             7.2.0.0    C     F    GX++ 10Gb FCoE Adapter
+                                                   Diagnostics
+  devices.pciex.df1060e214105f04.rte
+                             7.2.5.0    C     F    GX++ 10Gb FCoE Adapter Device
+                                                   Software
+  devices.pciex.e4143a161410a003.diag
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet Combo
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4143a161410a003.rte
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet Combo
+                                                   PCI-Express Adapter Software
+  devices.pciex.e4143a161410ed03.diag
+                             7.2.0.0    C     F    2-Port Integrated Gigabit
+                                                   Ethernet PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4143a161410ed03.rte
+                             7.2.0.0    C     F    2-Port Integrated Gigabit
+                                                   Ethernet PCI-Express Adapter
+                                                   Software
+  devices.pciex.e4143a16e4140909.diag
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4143a16e4140909.rte
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+  devices.pciex.e4143a16e4143009.diag
+                            7.2.3.15    C     F    4-Port Gigabit Ethernet
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4143a16e4143009.rte
+                             7.2.3.0    C     F    4-Port Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+  devices.pciex.e4145616e4140518.diag
+                            7.2.3.15    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4145616e4140518.rte
+                             7.2.5.0    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+  devices.pciex.e4145616e4140528.diag
+                             7.2.0.0    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e4145616e4140528.rte
+                            7.2.3.15    C     F    2-Port Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+  devices.pciex.e414571614102004.diag
+                             7.2.0.0    C     F    4-Port Gigabit Ethernet
+                                                   PCI-Express Adapter
+                                                   Diagnostics
+  devices.pciex.e414571614102004.rte
+                             7.2.5.0    C     F    4-Port Gigabit Ethernet
+                                                   PCI-Express Adapter Software
+  devices.pciex.e4148a1614109304.diag
+                             7.2.5.0    C     F    PCIe2 4-Port (10GbE SFP+ &
+                                                   1GbE RJ45) Adapter Diagnostics
+  devices.pciex.e4148a1614109304.rte
+                             7.2.5.0    C     F    PCIe2 4-Port (10GbE SFP+ &
+                                                   1GbE RJ45) Adapter
+  devices.pciex.e4148a1614109404.diag
+                             7.2.5.0    C     F    PCIe2 4-Port (10GbE SFP+ &
+                                                   1GbE RJ45) Adapter Diagnostics
+  devices.pciex.e4148a1614109404.rte
+                             7.2.5.0    C     F    PCIe2 4-Port (10GbE SFP+ &
+                                                   1GbE RJ45) Adapter
+  devices.pciex.e4148e1614109204.diag
+                             7.2.5.0    C     F    PCIe2 2-Port 10GbE Base-T
+                                                   Adapter Diagnostics
+  devices.pciex.e4148e1614109204.rte
+                             7.2.5.0    C     F    PCIe2 2-Port 10GbE Base-T
+                                                   Adapter
+  devices.pciex.pciexclass.010802.diag
+                             7.2.5.0    C     F    PCIe NVMe Adapter Diagnostics
+  devices.pciex.pciexclass.010802.rte
+                             7.2.5.0    C     F    PCIe NVMe Adapter Software
+  devices.sas.diag           7.2.5.0    C     F    Serial Attached SCSI Device
+                                                   Diagnostics
+  devices.sas.rte            7.2.5.0    C     F    Serial Attached SCSI Device
+                                                   Software
+  devices.sata.diag          7.2.0.0    C     F    Serial ATA Device Diagnostics
+  devices.sata.rte           7.2.0.0    C     F    Serial ATA Device Software
+  devices.scsi.disk.diag.com
+                             7.2.5.0    C     F    Common Disk Diagnostic Service
+                                                   Aid
+  devices.scsi.disk.diag.rte
+                             7.2.5.0    C     F    SCSI CD_ROM, Disk Device
+                                                   Diagnostics
+  devices.scsi.disk.rspc     7.2.0.0    C     F    RISC PC SCSI CD-ROM, Disk,
+                                                   Read/Write Optical Software
+  devices.scsi.disk.rte      7.2.5.1    C     F    SCSI CD-ROM, Disk, Read/Write
+                                                   Optical Device Software
+  devices.scsi.ses.diag      7.2.5.0    C     F    SCSI Enclosure Services Device
+                                                   Diagnostics
+  devices.scsi.ses.rte       7.2.5.0    C     F    SCSI Enclosure Device Software
+  devices.scsi.tape.diag     7.2.5.0    C     F    SCSI Tape Device Diagnostics
+  devices.scsi.tape.rspc     7.2.0.0    C     F    RISC PC SCSI Tape Device
+                                                   Software
+  devices.scsi.tape.rte      7.2.5.0    C     F    SCSI Tape Device Software
+  devices.scsi.tm.rte        7.2.5.0    C     F    SCSI Target Mode Software
+  devices.serial.sb1.X11     7.2.5.0    C     F    AIXwindows 6094-030 Spaceball
+                                                   3-D Input Device Software
+  devices.serial.tablet1.X11
+                             7.2.5.0    C     F    AIXwindows Serial Tablet Input
+                                                   Device Software
+  devices.tmiscsw.rte        7.2.5.1    C     F    iSCSI Target Software Device
+                                                   Driver
+  devices.tty.rte            7.2.5.0    C     F    TTY Device Driver Support
+                                                   Software
+  devices.usbif.010100.rte   7.2.4.0    C     F    USB Audio Device Driver
+  devices.usbif.03000008.rte
+                             7.2.4.0    C     F    USB 3D Mouse Client Driver
+  devices.usbif.030101.rte   7.2.4.0    C     F    USB Keyboard Client Driver
+  devices.usbif.030102.rte   7.2.4.0    C     F    USB Mouse Client Driver
+  devices.usbif.08025002.diag
+                             7.2.5.0    C     F    USB Mass Storage Diagnostics
+  devices.usbif.08025002.rte
+                             7.2.5.1    C     F    USB Mass Storage Device
+                                                   Software
+  devices.usbif.080400.diag  7.2.0.0    C     F    USB Diskette Diagnostics
+  devices.usbif.080400.rte   7.2.4.0    C     F    USB Diskette Client Driver
+  devices.usbif.usblibke.rte
+                             7.2.4.0    C     F    LIBUSB Device Support Software
+  devices.vdevice.IBM.l-lan.rte
+                             7.2.5.0    C     F    Virtual I/O Ethernet Software
+  devices.vdevice.IBM.v-scsi.rte
+                             7.2.5.1    C     F    Virtual SCSI Client Support
+  devices.vdevice.IBM.vfc-client.rte
+                             7.2.5.3    C     F    Virtual Fibre Channel Client
+                                                   Support
+  devices.vdevice.IBM.vnic.rte
+                             7.2.5.1    C     F    Virtual NIC Client Software
+  devices.vdevice.hvterm-protocol.rte
+                             7.2.0.0    C     F    Virtual Terminal Physical
+                                                   Support
+  devices.vdevice.hvterm1.rte
+                             7.2.3.0    C     F    Virtual Terminal Devices
+  devices.vdevice.vty-server.rte
+                             7.2.4.0    C     F    Virtual Terminal Devices
+  devices.virtio.core.rte    7.2.4.0    C     F    Virtio Core Device Software
+  devices.virtio.ethernet.rte
+                             7.2.4.0    C     F    Virtio Ethernet Device
+                                                   Software
+  devices.virtio.scsi.rte    7.2.5.0    C     F    virtio SCSI Adapter Device
+                                                   Software
+  dsm.core                   7.2.5.0    C     F    Distributed Systems Management
+                                                   Core
+  dsm.dsh                    7.2.5.0    C     F    Distributed Systems Management
+                                                   Dsh
+  expect.base               5.45.4.0    C     F    Binary executable files of
+                                                   Expect
+  expect.man.en_US          5.45.4.0    C     F    Expect man page documentation
+  httpd.base                2.4.12.0    C     F    Apache Http Server
+  httpd.license             2.4.12.0    C     F    Apache Http Server license
+                                                   files
+  httpd.man.en_US           2.4.12.0    C     F    Apache Http Server man page
+                                                   documentation
+  idsldap.clt32bit62.rte    6.2.0.32    C     F    Directory Server - 32 bit
+                                                   Client
+  idsldap.cltbase62.adt     6.2.0.32    C     F    Directory Server - Base Client
+  idsldap.cltbase62.rte     6.2.0.32    C     F    Directory Server - Base Client
+  infocenter.man.EN_US.commands
+                             7.2.5.0    C     F    AIX manual commands - U.S.
+                                                   English
+  infocenter.man.EN_US.files
+                             7.2.5.0    C     F    AIX manual files - U.S.
+                                                   English
+  infocenter.man.EN_US.libs  7.2.5.0    C     F    AIX manual libs - U.S. English
+  invscout.com               2.2.0.1    C     F    Inventory Scout Microcode
+                                                   Catalog
+  invscout.ldb               2.2.0.2    C     F    Inventory Scout Logic Database
+  invscout.msg.en_US.rte     2.1.0.2    C     F    Inventory Scout Messages -
+                                                   U.S. English
+  invscout.rte              2.2.0.20    C     F    Inventory Scout Runtime
+  krb5.client.rte           1.16.1.6    C     F    Network Authentication Service
+                                                   Client
+  krb5.client.samples       1.16.1.6    C     F    Network Authentication Service
+                                                   Samples
+  krb5.doc.en_US.html       1.16.1.6    C     F    Network Auth Service HTML
+                                                   Documentation - U.S. English
+  krb5.doc.en_US.pdf        1.16.1.6    C     F    Network Auth Service PDF
+                                                   Documentation - U.S. English
+  krb5.lic                  1.16.1.6    C     F    Network Authentication Service
+                                                   License
+  krb5.toolkit.adt          1.16.1.6    C     F    Network Authentication Service
+                                                   App. Dev. Toolkit
+  lsof.base               6.1.0.4850    C     F    List Of Open Files
+  lsof.license            6.1.0.4850    C     F    List Of Open Files
+  lsof.man.en_US          6.1.0.4850    C     F    List Of Open Files
+                                                   Documentation - U.S. English
+  mcr.rte                    7.2.5.2    C     F    Metacluster Checkpoint and
+                                                   Restart
+  openssh.base.client   8.1.102.2102    C     F    Open Secure Shell Commands
+  openssh.base.server   8.1.102.2102    C     F    Open Secure Shell Server
+  openssh.man.en_US     8.1.102.2102    C     F    Open Secure Shell
+                                                   Documentation - U.S. English
+  openssh.msg.en_US     8.1.102.2102    C     F    Open Secure Shell Messages -
+                                                   U.S. English
+  openssl.base            1.0.2.2101    C     F    Open Secure Socket Layer
+  openssl.license         1.0.2.2101    C     F    Open Secure Socket License
+  openssl.man.en_US       1.0.2.2101    C     F    Open Secure Socket Layer
+  perfagent.server           7.2.4.0    C     F    Performance Agent Daemons &
+                                                   Utilities
+  perfagent.tools            7.2.5.0    C     F    Local Performance Analysis &
+                                                   Control Commands
+  perl.libext                2.4.5.0    C     F    Perl Library Extensions
+  perl.man.en_US            5.28.1.4    C     F    Perl Documentation - U.S.
+                                                   English
+  perl.rte                  5.28.1.4    C     F    Perl Version 5 Runtime
+                                                   Environment
+  printers.msg.en_US.rte     7.1.3.0    C     F    Printer Backend Messages -
+                                                   U.S. English
+  printers.rte               7.2.4.0    C     F    Printer Backend
+  rpm.rte                   4.15.1.1    C     F    RPM Package Manager
+  rsct.basic.hacmp           3.2.6.0    C     F    RSCT Basic Function (HACMP/ES
+                                                   Support)
+  rsct.basic.rte             3.2.6.0    C     F    RSCT Basic Function
+  rsct.basic.sp              3.2.6.0    C     F    RSCT Basic Function (PSSP
+                                                   Support)
+  rsct.compat.basic.hacmp    3.2.6.0    C     F    RSCT Event Management Basic
+                                                   Function (HACMP/ES Support)
+  rsct.compat.basic.rte      3.2.6.0    C     F    RSCT Event Management Basic
+                                                   Function
+  rsct.compat.basic.sp       3.2.6.0    C     F    RSCT Event Management Basic
+                                                   Function (PSSP Support)
+  rsct.compat.clients.hacmp  3.2.6.0    C     F    RSCT Event Management Client
+                                                   Function (HACMP/ES Support)
+  rsct.compat.clients.rte    3.2.6.0    C     F    RSCT Event Management Client
+                                                   Function
+  rsct.compat.clients.sp     3.2.6.0    C     F    RSCT Event Management Client
+                                                   Function (PSSP Support)
+  rsct.core.auditrm          3.2.6.0    C     F    RSCT Audit Log Resource
+                                                   Manager
+  rsct.core.errm             3.2.6.0    C     F    RSCT Event Response Resource
+                                                   Manager
+  rsct.core.fsrm             3.2.6.0    C     F    RSCT File System Resource
+                                                   Manager
+  rsct.core.gui              3.2.6.0    C     F    RSCT Graphical User Interface
+  rsct.core.hostrm           3.2.6.0    C     F    RSCT Host Resource Manager
+  rsct.core.lprm             3.2.6.0    C     F    RSCT Least Privilege Resource
+                                                   Manager
+  rsct.core.microsensor      3.2.6.0    C     F    RSCT MicroSensor Resource
+                                                   Manager
+  rsct.core.rmc              3.2.6.0    C     F    RSCT Resource Monitoring and
+                                                   Control
+  rsct.core.sec              3.2.6.0    C     F    RSCT Security
+  rsct.core.sensorrm         3.2.6.0    C     F    RSCT Sensor Resource Manager
+  rsct.core.sr               3.2.6.0    C     F    RSCT Registry
+  rsct.core.utils            3.2.6.0    C     F    RSCT Utilities
+  rsct.msg.EN_US.core.auditrm
+                             3.2.6.0    C     F    RSCT Audit Log RM Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.core.errm   3.2.6.0    C     F    RSCT Event Response RM Msgs -
+                                                   U.S. English (UTF)
+  rsct.msg.EN_US.core.fsrm   3.2.6.0    C     F    RSCT File System RM Msgs -
+                                                   U.S. English (UTF)
+  rsct.msg.EN_US.core.gui    3.2.6.0    C     F    RSCT GUI Msgs - U.S. English
+                                                   (UTF)
+  rsct.msg.EN_US.core.hostrm
+                             3.2.6.0    C     F    RSCT Host RM Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.core.lprm   3.2.6.0    C     F    RSCT LPRM Msgs - U.S. English
+                                                   (UTF)
+  rsct.msg.EN_US.core.microsensorrm
+                             3.2.6.0    C     F    RSCT MicorSensor RM Msgs -
+                                                   U.S. English (UTF)
+  rsct.msg.EN_US.core.rmc    3.2.6.0    C     F    RSCT RMC Msgs - U.S. English
+                                                   (UTF)
+  rsct.msg.EN_US.core.sec    3.2.6.0    C     F    RSCT Security Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.core.sensorrm
+                             3.2.6.0    C     F    RSCT Sensor RM Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.core.sr     3.2.6.0    C     F    RSCT Registry Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.core.utils  3.2.6.0    C     F    RSCT Utilities Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.EN_US.opt.storagerm
+                             3.2.6.0    C     F    RSCT Storage RM Msgs - U.S.
+                                                   English (UTF)
+  rsct.msg.en_US.basic.rte   3.2.6.0    C     F    RSCT Basic Msgs - U.S. English
+  rsct.msg.en_US.core.auditrm
+                             3.2.6.0    C     F    RSCT Audit Log RM Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.errm   3.2.6.0    C     F    RSCT Event Response RM Msgs -
+                                                   U.S. English
+  rsct.msg.en_US.core.fsrm   3.2.6.0    C     F    RSCT File System RM Msgs -
+                                                   U.S. English
+  rsct.msg.en_US.core.gui    3.2.6.0    C     F    RSCT GUI Msgs - U.S. English
+  rsct.msg.en_US.core.gui.com
+                             3.2.6.0    C     F    RSCT GUI JAVA Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.hostrm
+                             3.2.6.0    C     F    RSCT Host RM Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.lprm   3.2.6.0    C     F    RSCT LPRM Msgs - U.S. English
+  rsct.msg.en_US.core.microsensorrm
+                             3.2.6.0    C     F    RSCT MicorSensor RM Msgs -
+                                                   U.S. English
+  rsct.msg.en_US.core.rmc    3.2.6.0    C     F    RSCT RMC Msgs - U.S. English
+  rsct.msg.en_US.core.rmc.com
+                             3.2.6.0    C     F    RSCT RMC JAVA Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.sec    3.2.6.0    C     F    RSCT Security Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.sensorrm
+                             3.2.6.0    C     F    RSCT Sensor RM Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.sr     3.2.6.0    C     F    RSCT Registry Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.core.utils  3.2.6.0    C     F    RSCT Utilities Msgs - U.S.
+                                                   English
+  rsct.msg.en_US.opt.storagerm
+                             3.2.6.0    C     F    RSCT Storage RM Msgs - U.S.
+                                                   English
+  rsct.opt.stackdump         3.2.6.0    C     F    RSCT Stackdump module
+  rsct.opt.storagerm         3.2.6.0    C     F    RSCT Storage Resource Manager
+  samba.base                3.6.25.1    C     F    Samba for AIX
+  samba.license             3.6.25.1    C     F    Samba for AIX
+  samba.man.en_US           3.6.25.1    C     F    Samba for AIX
+  security.acf               7.2.5.1    C     F    ACF/PKCS11 Device Driver
+  smbc.msg.Ja_JP           7.2.302.9    C     F    SMBC Messages - Japanese
+  smbc.msg.ca_ES           7.2.302.9    C     F    SMBC Messages - Catalan
+  smbc.msg.cs_CZ           7.2.302.9    C     F    SMBC Messages - Czech
+  smbc.msg.de_DE           7.2.302.9    C     F    SMBC Messages - German
+  smbc.msg.en_US           7.2.302.9    C     F    SMBC Messages - U.S. English
+  smbc.msg.es_ES           7.2.302.9    C     F    SMBC Messages - Spanish
+  smbc.msg.fr_FR           7.2.302.9    C     F    SMBC Messages - French
+  smbc.msg.hu_HU           7.2.302.9    C     F    SMBC Messages - Hungarian
+  smbc.msg.it_IT           7.2.302.9    C     F    SMBC Messages - Italian
+  smbc.msg.ko_KR           7.2.302.9    C     F    SMBC Messages - Korean
+  smbc.msg.pl_PL           7.2.302.9    C     F    SMBC Messages - Polish
+  smbc.msg.pt_BR           7.2.302.9    C     F    SMBC Messages - Brazilian
+                                                   Portuguese
+  smbc.msg.ru_RU           7.2.302.9    C     F    SMBC Messages - Russian
+  smbc.msg.sk_SK           7.2.302.9    C     F    SMBC Messages - Slovak
+  smbc.msg.zh_CN           7.2.302.9    C     F    SMBC Messages - Simplified
+                                                   Chinese
+  smbc.msg.zh_TW           7.2.302.9    C     F    SMBC Messages - Traditional
+                                                   Chinese
+  smbc.rte                 7.2.302.9    C     F    AIX Runtime for SMB Client
+  stgls.asat.rte             0.9.4.0    C     F    asat version 0.9.4 for
+  sysmgt.cfgassist           7.2.5.0    C     F    Configuration Assistant
+  sysmgtlib.framework.core   7.2.0.0    C     F    System Management Service
+                                                   Libraries Common Code
+  sysmgtlib.libraries.apps   7.2.0.0    C     F    System Management Service
+                                                   Libraries Application Code
+  tcl.base                  8.6.10.1    C     F    Binary executable files of Tcl
+  tcl.man.en_US             8.6.10.1    C     F    Tcl man page documentation
+  tivoli.tivguid             1.3.4.1    C     F    IBM Tivoli GUID on AIX
+  tivoli.tsm.client.api.64bit
+                            8.1.20.0    C     F    IBMSP Client - 64bit
+                                                   Application Programming
+                                                   Interface
+  tivoli.tsm.client.ba.64bit.base
+                            8.1.20.0    C     F    IBMSP Client 64 -
+                                                   Backup/Archive Base Files
+  tivoli.tsm.client.ba.64bit.common
+                            8.1.20.0    C     F    IBMSP Client 64 -
+                                                   Backup/Archive Common Files
+  tivoli.tsm.client.ba.64bit.image
+                            8.1.20.0    C     F    IBMSP Client 64 - IMAGE Backup
+                                                   Client
+  tivoli.tsm.client.ba.64bit.nas
+                            8.1.20.0    C     F    IBMSP Client 64 - NAS Backup
+                                                   Client
+  tivoli.tsm.client.ba.64bit.web
+                            8.1.20.0    C     F    IBMSP Client 64 -
+                                                   Backup/Archive Java GUI & WEB
+                                                   Client
+  tivoli.tsm.client.jbb.64bit
+                            8.1.20.0    C     F    IBMSP Client 64 - Journal-base
+                                                   Backup
+  tivoli.tsm.client.webgui  8.1.20.0    C     F    IBMSP Client 64 - Backup
+                                                   Client Webserver
+  tivoli.tsm.filepath.rte   2.2.0.59    C     F    IBMSP Filepath - Kernel
+                                                   extension for JBB
+  tk.base                   8.6.10.0    C     F    Binary executable files of Tk
+  tk.man.en_US              8.6.10.0    C     F    Tk man page documentation
+  wio.common                 7.2.5.0    C     F    Common I/O Support for
+                                                   Workload Partitions
+  wio.fcp                    7.2.4.0    C     F    FC I/O Support for Workload
+                                                   Partitions
+  wio.vscsi                  7.2.5.0    C     F    VSCSI I/O Support for Workload
+                                                   Partitions
+  xlC.aix61.rte             16.1.0.3    C     F    IBM XL C++ Runtime for AIX 6.1
+                                                   and later
+  xlC.cpp                    9.0.0.0    C     F    C for AIX Preprocessor
+  xlC.msg.en_US.cpp          9.0.0.0    C     F    C for AIX Preprocessor
+                                                   Messages--U.S. English
+  xlC.msg.en_US.rte         16.1.0.3    C     F    IBM XL C++ Runtime
+                                                   Messages--U.S. English
+  xlC.rte                   16.1.0.3    C     F    IBM XL C++ Runtime for AIX
+  xlC.sup.aix50.rte          9.0.0.1    C     F    XL C/C++ Runtime for AIX 5.2
+  xlsmp.aix61.rte            5.1.0.0    C     F    SMP Runtime Libraries
+  xlsmp.rte                  5.1.0.0    C     F    SMP Runtime Library
+  AIX-rpm                 7.2.5.1-13    C     R    Virtual Package for libraries
+                                                   and shells installed on system
+                                                   (/bin/rpm)
+  FuM-Standards               1.0-18    C     R    FuM Standards (/bin/rpm)
+  apr                        1.4.6-1    C     R    Apache Portable Runtime
+                                                   library (/bin/rpm)
+  apr-util                   1.4.1-1    C     R    Apache Portable Runtime
+                                                   Utility library (/bin/rpm)
+  atk                       1.32.0-1    C     R    Interfaces for accessibility
+                                                   support (/bin/rpm)
+  autoconf                    2.69-2    C     R    A GNU tool for automatically
+                                                   configuring source code
+                                                   (/bin/rpm)
+  automake                    1.15-2    C     R    A GNU tool for automatically
+                                                   creating Makefiles (/bin/rpm)
+  bash                         4.0-2    C     R    The GNU Bourne Again shell
+                                                   (bash) version %{version}
+                                                   (/bin/rpm)
+  bzip2                      1.0.6-1    C     R    A file compression utility
+                                                   (/bin/rpm)
+  bzip2-devel                1.0.6-1    C     R    Header files developing apps
+                                                   which will use bzip2
+                                                   (/bin/rpm)
+  cairo                     1.12.8-1    C     R    A vector graphics library
+                                                   (/bin/rpm)
+  db4                       4.7.25-2    C     R    The Berkeley DB database
+                                                   library (version 4) for C
+                                                   (/bin/rpm)
+  ddd                       3.3.12-1    C     R    GUI for several command-line
+                                                   debuggers (/bin/rpm)
+  dos2unix                   6.0.3-1    C     R    Text file format converters
+                                                   (/bin/rpm)
+  expat                      2.0.1-2    C     R    A library for parsing XML.
+                                                   (/bin/rpm)
+  expect                    5.42.1-3    C     R    A tcl extension for
+                                                   simplifying program-script
+                                                   interaction(empty). (/bin/rpm)
+  file-libs                   5.05-1    C     R    Libraries for applications
+                                                   using libmagic (/bin/rpm)
+  fontconfig                 2.8.0-2    C     R    Font configuration and
+                                                   customization library
+                                                   (/bin/rpm)
+  freetype2                 2.4.11-1    C     R    A free and portable font
+                                                   rendering engine (/bin/rpm)
+  gawk                       4.0.2-1    C     R    The GNU version of the awk
+                                                   text processing utility.
+                                                   (/bin/rpm)
+  gcc                        4.6.3-4    C     R    GNU Compiler Collection
+                                                   (/bin/rpm)
+  gcc-c++                    4.6.3-4    C     R    C++ support for GCC (/bin/rpm)
+  gcc-cpp                    4.6.3-4    C     R    The C Preprocessor (/bin/rpm)
+  gd                        2.0.35-5    C     R    A graphics library for quick
+                                                   creation of PNG or JPEG images
+                                                   (/bin/rpm)
+  gdb                          7.7-1    C     R    A GNU source-level debugger
+                                                   for C, C++, Java and other
+                                                   languages. (/bin/rpm)
+  gdbm                        1.10-1    C     R    A GNU set of database routines
+                                                   which use extensible hashing.
+                                                   (/bin/rpm)
+  gettext                  0.10.40-8    C     R    GNU libraries and utilities
+                                                   for producing multi-lingual
+                                                   messages. (/bin/rpm)
+  ghostscript                 9.06-2    C     R    A PostScript(TM) interpreter
+                                                   and renderer. (/bin/rpm)
+  ghostscript-devel           9.06-2    C     R    Files for developing
+                                                   applications that use
+                                                   ghostscript. (/bin/rpm)
+  ghostscript-fonts           8.11-1    C     R    Fonts for the GhostScript
+                                                   interpreter (/bin/rpm)
+  glib2                     2.30.3-1    C     R    A library of handy utility
+                                                   functions (/bin/rpm)
+  gmp                        5.0.5-1    C     R    A GNU arbitrary precision
+                                                   library (/bin/rpm)
+  gnuplot                    4.6.1-1    C     R    A program for plotting
+                                                   mathematical expressions and
+                                                   data. (/bin/rpm)
+  gtk2                      2.18.9-2    C     R    The GIMP ToolKit (GTK+), a
+                                                   library for creating GUIs for
+                                                   X (/bin/rpm)
+  gzip                     1.2.4a-10    C     R    The GNU data compression
+                                                   program. (/bin/rpm)
+  info                       4.13a-2    C     R    A stand-alone TTY-based reader
+                                                   for GNU texinfo documentation.
+                                                   (/bin/rpm)
+  jasper                   1.900.1-2    C     R    Implementation of the
+                                                   JPEG-2000 standard, Part 1
+                                                   (/bin/rpm)
+  jbigkit-libs                 2.0-2    C     R    JBIG1 lossless image
+                                                   compression library (/bin/rpm)
+  krb5-libs                  1.9.2-2    C     R    The shared libraries used by
+                                                   Kerberos 5 (/bin/rpm)
+  lcms2                        2.5-1    C     R    Color Management System
+                                                   (/bin/rpm)
+  less                         451-1    C     R    A text file browser similar to
+                                                   more, but better (/bin/rpm)
+  libXpm                    3.5.10-2    C     R    X.Org X11 libXpm runtime
+                                                   library (/bin/rpm)
+  libXrender                 0.9.7-2    C     R    X.Org X11 libXrender runtime
+                                                   library (/bin/rpm)
+  libart_lgpl               2.3.21-1    C     R    Library of graphics routines
+                                                   used by libgnomecanvas
+                                                   (/bin/rpm)
+  libcroco                   0.6.5-1    C     R    A CSS2 parsing library
+                                                   (/bin/rpm)
+  libdatrie                  0.2.4-1    C     R    Double-array structure for
+                                                   representing trie (/bin/rpm)
+  libffi                    3.0.10-1    C     R    A portable foreign function
+                                                   interface library (/bin/rpm)
+  libgcc                     4.6.3-4    C     R    GCC version 4.6.3 shared
+                                                   support library (/bin/rpm)
+  libiconv                    1.14-2    C     R    Character set conversion
+                                                   library, portable iconv
+                                                   implementation (/bin/rpm)
+  libidn                      1.26-1    C     R    Internationalized Domain Name
+                                                   support library (/bin/rpm)
+  libjpeg                       8d-1    C     R    A library for manipulating
+                                                   JPEG image format files
+                                                   (/bin/rpm)
+  libmpc                       0.9-1    C     R    C library for multiple
+                                                   precision complex arithmetic
+                                                   (/bin/rpm)
+  libpaper                  1.1.24-1    C     R    Library and tools for handling
+                                                   papersize (/bin/rpm)
+  libpng                    1.5.13-1    C     R    A library of functions for
+                                                   manipulating PNG image format
+                                                   files (/bin/rpm)
+  librsvg2                  2.34.2-1    C     R    A Library for Rendering SVG
+                                                   Data (/bin/rpm)
+  libsigsegv                  2.10-1    C     R    Library for handling page
+                                                   faults in user mode (/bin/rpm)
+  libstdc++                  4.6.3-4    C     R    GNU Standard C++ Library
+                                                   (/bin/rpm)
+  libstdc++-devel            4.6.3-4    C     R    Header files and libraries for
+                                                   C++ development (/bin/rpm)
+  libthai                   0.1.18-1    C     R    Thai language support routines
+                                                   (/bin/rpm)
+  libtiff                    4.0.3-1    C     R    Library of functions for
+                                                   manipulating TIFF format image
+                                                   files (/bin/rpm)
+  libxml2                    2.9.0-1    C     R    Library providing XML and HTML
+                                                   support (/bin/rpm)
+  lua                        5.2.1-1    C     R    Powerful light-weight
+                                                   programming language
+                                                   (/bin/rpm)
+  m4                        1.4.17-1    C     R    The GNU macro processor
+                                                   (/bin/rpm)
+  make                        3.82-1    C     R    A GNU tool which simplifies
+                                                   the build process for users
+                                                   (/bin/rpm)
+  mc                       4.7.0.4-2    C     R    User-friendly text console
+                                                   file manager and visual shell.
+                                                   (/bin/rpm)
+  mpfr                       3.1.1-1    C     R    A C library for
+                                                   multiple-precision
+                                                   floating-point computations
+                                                   (/bin/rpm)
+  neon                      0.29.6-1    C     R    An HTTP and WebDAV client
+                                                   library (/bin/rpm)
+  openldap                2.4.23-0.3    C     R    LDAP support libraries
+                                                   (/bin/rpm)
+  openssl                   1.0.1c-1    C     R    Secure Sockets Layer and
+                                                   cryptography libraries and
+                                                   tools (/bin/rpm)
+  pango                     1.24.5-1    C     R    System for layout and
+                                                   rendering of internationalized
+                                                   text (/bin/rpm)
+  pcre                        8.32-1    C     R    Perl-compatible regular
+                                                   expression library (/bin/rpm)
+  perl                       5.8.8-2    C     R    The Perl programming language
+                                                   (/bin/rpm)
+  pixman                    0.28.0-1    C     R    Pixel manipulation library
+                                                   (/bin/rpm)
+  pkg-config                  0.27-1    C     R    A tool for determining
+                                                   compilation options (/bin/rpm)
+  popt                        1.16-1    C     R    C library for parsing command
+                                                   line parameters (/bin/rpm)
+  python                     2.6.7-1    C     R    An interpreted, interactive,
+                                                   object-oriented programming
+                                                   language. (/bin/rpm)
+  python-libs                2.6.7-1    C     R    The libraries for python
+                                                   runtime (/bin/rpm)
+  readline                     6.2-4    C     R    A library for editing typed
+                                                   command lines (/bin/rpm)
+  rsync                      3.0.9-1    C     R    A program for synchronizing
+                                                   files over a network.
+                                                   (/bin/rpm)
+  screen                     4.0.3-1    C     R    A screen manager that supports
+                                                   multiple logins on one
+                                                   terminal (/bin/rpm)
+  slang                      2.1.3-1    C     R    The shared library for the
+                                                   S-Lang extension language
+                                                   (/bin/rpm)
+  sqlite                    3.7.13-1    C     R    Library that implements an
+                                                   embeddable SQL database engine
+                                                   (/bin/rpm)
+  subversion                 1.7.8-2    C     R    Modern Version Control System
+                                                   designed to replace CVS
+                                                   (/bin/rpm)
+  sudo                     1.7.2p1-1    C     R    Allows restricted root access
+                                                   for specified users (/bin/rpm)
+  tar                         1.14-2    C     R    A GNU file archiving program.
+                                                   (/bin/rpm)
+  tcl                        8.4.7-3    C     R    An embeddable scripting
+                                                   language(empty). (/bin/rpm)
+  tk                         8.4.7-3    C     R    The Tk GUI toolkit for Tcl,
+                                                   with shared libraries(empty).
+                                                   (/bin/rpm)
+  top                     3.8beta1-2    C     R    Full-Screen Process Display
+                                                   (/bin/rpm)
+  unzip                       5.51-1    C     R    A utility for unpacking zip
+                                                   files. (/bin/rpm)
+  urw-fonts                    2.4-1    C     R    Free versions of the 35
+                                                   standard PostScript fonts.
+                                                   (/bin/rpm)
+  vim-X11                  7.3.762-1    C     R    The VIM version of the vi
+                                                   editor for the X Window System
+                                                   (/bin/rpm)
+  vim-common               7.3.762-1    C     R    The common files needed by any
+                                                   version of the VIM editor
+                                                   (/bin/rpm)
+  vim-enhanced             7.3.762-1    C     R    A version of the VIM editor
+                                                   which includes recent
+                                                   enhancements (/bin/rpm)
+  vnc                      3.3.3r2-6    C     R    Virtual Network Computing
+                                                   (/bin/rpm)
+  wget                        1.14-2    C     R    A utility for retrieving files
+                                                   using the HTTP or FTP
+                                                   protocols (/bin/rpm)
+  xorg-compat-aix              1.1-1    C     R    X.Org X11 AIX compatibility
+                                                   layer (/bin/rpm)
+  xz-libs                    5.0.4-1    C     R    Libraries for decoding LZMA
+                                                   compression (/bin/rpm)
+  zip                          2.3-3    C     R    A file compression and
+                                                   packaging utility compatible
+                                                   with PKZIP. (/bin/rpm)
+  zlib                       1.2.7-1    C     R    The zlib compression and
+                                                   decompression library
+                                                   (/bin/rpm)
+  zlib-devel                 1.2.7-1    C     R    Header files and libraries for
+                                                   Zlib development (/bin/rpm)
+
+
+State codes:
+ A -- Applied.
+ B -- Broken.
+ C -- Committed.
+ E -- EFIX Locked.
+ O -- Obsolete.  (partially migrated to newer version)
+ ? -- Inconsistent State...Run lppchk -v.
+
+Type codes:
+ F -- Installp Fileset
+ P -- Product
+ C -- Component
+ T -- Feature
+ R -- RPM Package
+E -- Interim Fix
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # lslpp -L | grep -i xlc
+  xlC.aix61.rte             16.1.0.3    C     F    IBM XL C++ Runtime for AIX 6.1
+  xlC.cpp                    9.0.0.0    C     F    C for AIX Preprocessor
+  xlC.msg.en_US.cpp          9.0.0.0    C     F    C for AIX Preprocessor
+  xlC.msg.en_US.rte         16.1.0.3    C     F    IBM XL C++ Runtime
+  xlC.rte                   16.1.0.3    C     F    IBM XL C++ Runtime for AIX
+  xlC.sup.aix50.rte          9.0.0.1    C     F    XL C/C++ Runtime for AIX 5.2
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # /opt/freeware/bin/gcc --version
+gcc (GCC) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # which g++ gcc
+/opt/freeware/bin/g++
+/opt/freeware/bin/gcc
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # ls -l /opt/freeware/bin/gcc*
+-rwxr-xr-x    3 root     system       350189 Dec 05 2012  /opt/freeware/bin/gcc
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # echo $LIBPATH
+
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # echo $LD_LIBRARY_PATH
+/usr/local/lib:/opt/lib/informix11.70FC7/lib:/opt/lib/informix11.70FC7/SDK/lib:/opt/lib/informix11.70FC7/lib/esql::
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # dump -H /usr/lib/libpthreads.a
+
+/usr/lib/libpthreads.a[shr.o]:
+
+                        ***Loader Section***
+                      Loader Header Information
+VERSION#         #SYMtableENT     #RELOCent        LENidSTR
+0x00000001       0x000001a6       0x000003c7       0x00000040
+
+#IMPfilID        OFFidSTR         LENstrTBL        OFFstrTBL
+0x00000004       0x00005504       0x00001c99       0x00005544
+
+
+                        ***Import File Strings***
+INDEX  PATH                          BASE                MEMBER
+0      /usr/lib:/lib
+1                                    libpthreads.a       shr_comm.o
+2      /                             unix
+3                                    libc.a              shr.o
+
+/usr/lib/libpthreads.a[shr_comm.o]:
+
+                        ***Loader Section***
+                      Loader Header Information
+VERSION#         #SYMtableENT     #RELOCent        LENidSTR
+0x00000001       0x000000b3       0x00000006       0x0000001e
+
+#IMPfilID        OFFidSTR         LENstrTBL        OFFstrTBL
+0x00000002       0x00001130       0x00000bf6       0x0000114e
+
+
+                        ***Import File Strings***
+INDEX  PATH                          BASE                MEMBER
+0      /usr/lib:/lib
+1                                    libc.a              shr.o
+
+/usr/lib/libpthreads.a[shr_xpg5.o]:
+
+                        ***Loader Section***
+                      Loader Header Information
+VERSION#         #SYMtableENT     #RELOCent        LENidSTR
+0x00000001       0x000001ec       0x0000045c       0x00000040
+
+#IMPfilID        OFFidSTR         LENstrTBL        OFFstrTBL
+0x00000004       0x00006290       0x000023c4       0x000062d0
+
+
+                        ***Import File Strings***
+INDEX  PATH                          BASE                MEMBER
+0      /usr/lib:/lib
+1      /                             unix
+2                                    libc.a              shr.o
+3                                    libpthreads.a       shr_comm.o
+
+/usr/lib/libpthreads.a[init.o]:
+
+Loader section is not available
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # ls -l /opt/freeware/lib/*pthread*
+total 0
+lrwxrwxrwx    1 root     system           54 Mar 03 2018  libgcc_s.a -> ../gcc/powerpc-ibm-aix7.1.0.0/4.6.3/pthread/libgcc_s.a
+lrwxrwxrwx    1 root     system           55 Mar 03 2018  libstdc++.a -> ../gcc/powerpc-ibm-aix7.1.0.0/4.6.3/pthread/libstdc++.a
+drwxr-xr-x    2 root     system          256 Feb 15 2013  ppc64
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # /usr/vac/bin/xlc_r -qversion
+ksh: /usr/vac/bin/xlc_r:  not found.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # /usr/bin/cc -V
+ksh: /usr/bin/cc:  not found.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # df -k /software
+Filesystem    1024-blocks      Free %Used    Iused %Iused Mounted on
+/dev/zdev2_appl_lv  1571815424 136557884   92%  3921206     9% /software
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # mount | grep /software
+         /dev/zdev2_appl_lv /software        jfs2   Jul 21 17:16 rw,log=INLINE
+denu0uanfs21 /software/transfer /transfer        nfs3   Apr 09 11:11 ro,soft,intr
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # id
+uid=20192(h.benabdelaziz) gid=700(phoenix) groups=1(staff)
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # ls -ld /software/home/benabdelaziz
+drwxr-xr-x   33 h.benabd phoenix        4096 Apr 09 11:16 /software/home/benabdelaziz
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # make --version
+GNU Make 3.82
+Built for powerpc-ibm-aix5.3.0.0
+Copyright (C) 2010  Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # ar --version
+Usage:  ar [-X{32|64|32_64|d64|any}] [-clsvCT] [-g|o] {-h|p|t|x}
+                [--] Archive [File ...]
+        ar [-X{32|64|32_64|d64|any}] [-clsvCT] [-g|o] {-m|r[u]}
+                [{-a|b|i} {PositionName}] [--] Archive File ...
+        ar [-X{32|64|32_64|d64|any}] [-clsvCT] [-g|o] {-d|q}
+                [--] Archive File ...
+        ar [-X{32|64|32_64|d64|any}] [-clvCT] {-g|o|s|w} [--] Archive
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # ld -V | head -n 1
+ld: LD 7.2.5(2/13/18)
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # rpm -qa | grep -E 'zlib|openssl|icu'
+zlib-devel-1.2.7-1.ppc
+zlib-1.2.7-1.ppc
+openssl-1.0.1c-1.ppc
+h.benabdelaziz@zdev21:/software/home/benabdelaziz # env | sort | grep -E 'CC|CXX|PATH|LIB'
+DEVLIB_PATH=/software/ae
+FPATH=/software/wss/procfunc
+LD_LIBRARY_PATH=/usr/local/lib:/opt/lib/informix11.70FC7/lib:/opt/lib/informix11.70FC7/SDK/lib:/opt/lib/informix11.70FC7/lib/esql::
+LIB_PATH=/software/wss/lib
+LOCPATH=/usr/lib/nls/loc
+NLSPATH=/usr/lib/nls/msg/%L/%N:/usr/lib/nls/msg/en_US/%N:/usr/lib/nls/msg/%L/%N.cat:/usr/lib/nls/msg/en_US/%N.cat:/usr/lib/nls/msg/%l.%c/%N:/usr/lib/nls/msg/%l.%c/%N.cat
+PATH=/software/home/benabdelaziz/bin:.:/prz:/software/wss:/software/ae/marathon/make:/usr/local/bin:/opt/freeware/bin:/transfer/tools:/software/ae/marathon/bin:/opt/lib/informix11.70FC7/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/software/home/benabdelaziz:/usr/bin/X11:/sbin:.:/informix/ifddt/bin
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz #
