@@ -1,0 +1,37 @@
+--- qtbase-everywhere-src-5.15.0/src/corelib/thread/qatomic_cxx11.h.orig	2023-04-09 14:00:00.000000000 +0000
++++ qtbase-everywhere-src-5.15.0/src/corelib/thread/qatomic_cxx11.h	2023-04-09 14:00:00.000000000 +0000
+@@ -45,6 +45,13 @@
+ #include <atomic>
+ #include <cstddef>
+ 
++// GCC 4.6.3 compatibility - older GCC doesn't have std::atomic_*_explicit
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++#define QT_ATOMIC_STORE(type, ptr, val, order) std::atomic_store(ptr, val)
++#define QT_ATOMIC_LOAD(type, ptr, order) std::atomic_load(ptr)
++#define QT_ATOMIC_FETCH_OP(op, type, ptr, val, order) std::atomic_fetch_##op(ptr, val)
++#else
++
+ #if defined(Q_CC_GNU) && defined(Q_PROCESSOR_ARM) && (__ARM_ARCH < 8)
+ // GCC 8.3 on ARMv7 does this:
+ //      fatal error: too many memory operands for `dmb'
+@@ -61,6 +68,7 @@
+ #define QT_ATOMIC_LOAD(type, ptr, order) std::atomic_load_explicit(ptr, order)
+ #define QT_ATOMIC_FETCH_OP(op, type, ptr, val, order) std::atomic_fetch_##op##_explicit(ptr, val, order)
+ #endif
++#endif
+ 
+ QT_BEGIN_NAMESPACE
+ 
+@@ -102,8 +110,14 @@
+         // operator= is NOT atomic, use store instead
+         Type operator=(Type desired) noexcept
+         {
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++            // Simple assignment for GCC 4.6.3
++            a = desired;
++            return desired;
++#else
+             store(desired);
+             return desired;
++#endif
+         }

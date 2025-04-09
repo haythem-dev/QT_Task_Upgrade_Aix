@@ -4,32 +4,39 @@
 # Exit on error
 set -e
 
-# We'll run this from the src directory where qtbase-everywhere-src-5.15.0 exists
+# Base directory paths
+BASE_DIR="/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src"
+QT_SRC_DIR="${BASE_DIR}/qtbase-everywhere-src-5.15.0"
+CONFIGURE_PATH="${QT_SRC_DIR}/configure"
+
 echo "Starting Qt 5.15.0 build process..."
-echo "Current directory: $(pwd)"
+echo "Base directory: ${BASE_DIR}"
+echo "Qt source directory: ${QT_SRC_DIR}"
+echo "Configure path: ${CONFIGURE_PATH}"
 
 # Configure environment
 export OBJECT_MODE=64
-export PATH=$(pwd)/qtbase-everywhere-src-5.15.0/bin:$PATH
+export PATH=${QT_SRC_DIR}/bin:$PATH
 
 # Create install directory
 mkdir -p /opt/qt-5.15.0
 
 echo "Configuring qtbase with reduced features..."
-cd qtbase-everywhere-src-5.15.0
+cd "${QT_SRC_DIR}"
 
 # Explicitly check for the configure script
-if [ ! -f "./configure" ]; then
-    echo "Error: configure script not found in $(pwd)"
-    echo "Contents of current directory:"
-    ls -la
+if [ ! -f "${CONFIGURE_PATH}" ]; then
+    echo "Error: configure script not found at ${CONFIGURE_PATH}"
+    echo "Contents of Qt source directory:"
+    ls -la "${QT_SRC_DIR}"
     exit 1
 fi
 
 # Make sure configure is executable
-chmod +x ./configure
+chmod +x "${CONFIGURE_PATH}"
 
-./configure \
+# Run configure with full path
+"${CONFIGURE_PATH}" \
     -prefix /opt/qt-5.15.0 \
     -platform aix-g++ \
     -release \

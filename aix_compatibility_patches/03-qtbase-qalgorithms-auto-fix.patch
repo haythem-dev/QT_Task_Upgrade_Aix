@@ -1,0 +1,26 @@
+--- qtbase-everywhere-src-5.15.0/src/corelib/tools/qalgorithms.h.orig	2023-04-09 14:00:00.000000000 +0000
++++ qtbase-everywhere-src-5.15.0/src/corelib/tools/qalgorithms.h	2023-04-09 14:00:00.000000000 +0000
+@@ -596,7 +596,11 @@
+ template <typename RandomAccessIterator, typename T, typename LessThan>
+ Q_OUTOFLINE_TEMPLATE void qSortHelper(RandomAccessIterator first, RandomAccessIterator last, const T &t, LessThan lessThan)
+ {
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++    const qptrdiff n = last - first;
++#else
+     const auto n = last - first;
++#endif
+     if (n <= 0)
+         return;
+ 
+@@ -670,7 +674,11 @@
+ template <typename RandomAccessIterator, typename T, typename LessThan>
+ Q_OUTOFLINE_TEMPLATE void qStableSortHelper(RandomAccessIterator first, RandomAccessIterator last, const T &t, LessThan lessThan)
+ {
++#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 6
++    const qptrdiff n = last - first;
++#else
+     const auto n = last - first;
++#endif
+     if (n <= 1)
+         return;
+ 
