@@ -1,0 +1,196 @@
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # gcc -v
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/opt/freeware/libexec/gcc/powerpc-ibm-aix7.1.0.0/4.6.3/lto-wrapper
+Target: powerpc-ibm-aix7.1.0.0
+Configured with: ../gcc-4.6.3/configure --with-as=/usr/bin/as --with-ld=/usr/bin/ld --enable-languages=c,c++,fortran --prefix=/opt/freeware --mandir=/opt/freeware/man --infodir=/opt/freeware/info --enable-threads --enable-version-specific-runtime-libs --disable-nls --enable-decimal-float=dpd --host=powerpc-ibm-aix7.1.0.0
+Thread model: aix
+gcc version 4.6.3 (GCC)
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # g++ -v
+Using built-in specs.
+COLLECT_GCC=g++
+COLLECT_LTO_WRAPPER=/opt/freeware/libexec/gcc/powerpc-ibm-aix7.1.0.0/4.6.3/lto-wrapper
+Target: powerpc-ibm-aix7.1.0.0
+Configured with: ../gcc-4.6.3/configure --with-as=/usr/bin/as --with-ld=/usr/bin/ld --enable-languages=c,c++,fortran --prefix=/opt/freeware --mandir=/opt/freeware/man --infodir=/opt/freeware/info --enable-threads --enable-version-specific-runtime-libs --disable-nls --enable-decimal-float=dpd --host=powerpc-ibm-aix7.1.0.0
+Thread model: aix
+gcc version 4.6.3 (GCC)
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ls -la /usr/include/X11/
+total 3176
+drwxr-xr-x   10 bin      bin            4096 Nov 05 2021  .
+drwxr-xr-x    4 bin      bin             256 Mar 03 2018  ..
+-rw-r--r--    1 bin      bin            6185 Sep 18 2014  AIX.h
+-rw-r--r--    1 bin      bin           13397 Sep 18 2014  AIXkeymap.h
+-rw-r--r--    1 bin      bin            2373 Sep 18 2014  AIXlib.h
+-rw-r--r--    1 bin      bin            1735 Sep 18 2014  AIXlibint.h
+-rw-r--r--    1 bin      bin           18828 Sep 18 2014  AIXproto.h
+-rwxr-xr-x    1 bin      bin            5427 Sep 18 2014  CallbackI.h
+-rwxr-xr-x    1 bin      bin            4917 Sep 18 2014  Composite.h
+-rwxr-xr-x    1 bin      bin            6086 Sep 18 2014  CompositeP.h
+-rwxr-xr-x    1 bin      bin            5441 Sep 18 2014  ConstrainP.h
+-rwxr-xr-x    1 bin      bin            4012 Sep 18 2014  Constraint.h
+-rwxr-xr-x    1 bin      bin            4845 Sep 18 2014  ConvertI.h
+-rwxr-xr-x    1 bin      bin            4036 Sep 18 2014  Core.h
+-rwxr-xr-x    1 bin      bin           10008 Sep 18 2014  CoreP.h
+-rwxr-xr-x    1 bin      bin            2626 Sep 18 2014  CreateI.h
+-rwxr-xr-x    1 bin      bin            4203 Sep 18 2014  DECkeysym.h
+-rwxr-xr-x    1 bin      bin            5754 Sep 18 2014  EventI.h
+-rwxr-xr-x    1 bin      bin            7424 Sep 18 2014  HPkeysym.h
+-rwxr-xr-x    1 bin      bin            3550 Sep 18 2014  HookObjI.h
+drwxr-xr-x    2 bin      bin             256 Mar 13 2017  ICE
+-rwxr-xr-x    1 bin      bin            1848 Sep 18 2014  ImUtil.h
+-rwxr-xr-x    1 bin      bin           14353 Sep 18 2014  InitialI.h
+-rwxr-xr-x    1 bin      bin           64826 Sep 18 2014  Intrinsic.h
+-rwxr-xr-x    1 bin      bin            8903 Sep 18 2014  IntrinsicI.h
+-rwxr-xr-x    1 bin      bin           10968 Sep 18 2014  IntrinsicP.h
+-rwxr-xr-x    1 bin      bin            3994 Sep 18 2014  Object.h
+-rwxr-xr-x    1 bin      bin            8315 Sep 18 2014  ObjectP.h
+drwxr-xr-x    2 bin      bin             256 Mar 13 2017  PM
+-rwxr-xr-x    1 bin      bin            7093 Sep 18 2014  PassivGraI.h
+-rwxr-xr-x    1 bin      bin            3997 Sep 18 2014  RectObj.h
+-rwxr-xr-x    1 bin      bin            7843 Sep 18 2014  RectObjP.h
+-rwxr-xr-x    1 bin      bin            4439 Sep 18 2014  ResConfigP.h
+-rwxr-xr-x    1 bin      bin            5157 Sep 18 2014  ResourceI.h
+drwxr-xr-x    2 bin      bin             256 Mar 13 2017  SM
+-rwxr-xr-x    1 bin      bin            6599 Sep 18 2014  SelectionI.h
+-rwxr-xr-x    1 bin      bin           18652 Sep 18 2014  Shell.h
+-rwxr-xr-x    1 bin      bin            1559 Sep 18 2014  ShellI.h
+-rwxr-xr-x    1 bin      bin           14055 Sep 18 2014  ShellP.h
+-rwxr-xr-x    1 bin      bin           31960 Sep 18 2014  StringDefs.h
+-rwxr-xr-x    1 bin      bin            5412 Sep 18 2014  Sunkeysym.h
+-rwxr-xr-x    1 bin      bin            5703 Sep 18 2014  ThreadsI.h
+-rwxr-xr-x    1 bin      bin           18665 Sep 18 2014  TranslateI.h
+-rwxr-xr-x    1 bin      bin            3898 Sep 18 2014  VarargsI.h
+-rwxr-xr-x    1 bin      bin            4198 Sep 18 2014  Vendor.h
+-rwxr-xr-x    1 bin      bin            4983 Sep 18 2014  VendorP.h
+-rwxr-xr-x    1 bin      bin           21618 Sep 18 2014  X.h
+-rwxr-xr-x    1 bin      bin            4269 Sep 18 2014  X10.h
+-rwxr-xr-x    1 bin      bin            7474 Sep 18 2014  XF86keysym.h
+-rwxr-xr-x    1 bin      bin           32512 Sep 18 2014  XKBlib.h
+-rwxr-xr-x    1 bin      bin            5346 Sep 18 2014  XWDFile.h
+-rwxr-xr-x    1 bin      bin            6705 Sep 18 2014  Xalloca.h
+-rwxr-xr-x    1 bin      bin            4800 Sep 18 2014  Xarch.h
+-rwxr-xr-x    1 bin      bin            3831 Sep 18 2014  Xatom.h
+-rwxr-xr-x    1 bin      bin            5215 Sep 18 2014  Xauth.h
+drwxr-xr-x    2 bin      bin            4096 Mar 03 2018  Xaw
+-rwxr-xr-x    1 bin      bin           22461 Sep 18 2014  Xcms.h
+drwxr-xr-x    2 bin      bin             256 Mar 13 2017  Xcursor
+-rwxr-xr-x    1 bin      bin            3793 Sep 18 2014  Xdefs.h
+-rwxr-xr-x    1 bin      bin            8068 Sep 18 2014  Xdmcp.h
+-rwxr-xr-x    1 bin      bin            4892 Sep 18 2014  Xfuncproto.h
+-rwxr-xr-x    1 bin      bin            4553 Sep 18 2014  Xfuncs.h
+-rwxr-xr-x    1 bin      bin           25786 Sep 18 2014  Xlcint.h
+-rwxr-xr-x    1 bin      bin          100356 Sep 18 2014  Xlib.h
+-rwxr-xr-x    1 bin      bin            2943 Sep 18 2014  XlibConf.h
+-rwxr-xr-x    1 bin      bin           39212 Apr 10 2020  Xlibint.h
+-rwxr-xr-x    1 bin      bin            3097 Sep 18 2014  Xlocale.h
+-rwxr-xr-x    1 bin      bin            8315 Sep 18 2014  Xmd.h
+drwxr-xr-x    2 bin      bin            4096 Mar 03 2018  Xmu
+-rwxr-xr-x    1 bin      bin            8584 Sep 18 2014  Xos.h
+-rwxr-xr-x    1 bin      bin           38041 Sep 18 2014  Xos_r.h
+-rwxr-xr-x    1 bin      bin            5116 Sep 18 2014  Xosdefs.h
+-rwxr-xr-x    1 bin      bin            9648 Sep 18 2014  Xpoll.h
+-rwxr-xr-x    1 bin      bin           57271 Sep 18 2014  Xproto.h
+-rwxr-xr-x    1 bin      bin            4187 Sep 18 2014  Xprotostr.h
+-rwxr-xr-x    1 bin      bin            7280 Sep 18 2014  Xregion.h
+-rwxr-xr-x    1 bin      bin           12105 Sep 18 2014  Xresource.h
+-rwxr-xr-x    1 bin      bin           13900 Sep 18 2014  Xthreads.h
+-rwxr-xr-x    1 bin      bin            4397 Sep 18 2014  Xtos.h
+-rwxr-xr-x    1 bin      bin           22503 Sep 18 2014  Xutil.h
+-rwxr-xr-x    1 bin      bin            3158 Sep 18 2014  Xw32defs.h
+-rwxr-xr-x    1 bin      bin            3472 Sep 18 2014  Xwindows.h
+-rwxr-xr-x    1 bin      bin            3261 Sep 18 2014  Xwinsock.h
+-rwxr-xr-x    1 bin      bin            2275 Sep 18 2014  aixXIM.h
+-rwxr-xr-x    1 bin      bin           32841 Sep 18 2014  aix_keysym.h
+-rwxr-xr-x    1 bin      bin            3615 Sep 18 2014  ap_keysym.h
+drwxr-xr-x    2 bin      bin            4096 Mar 03 2018  bitmaps
+-rwxr-xr-x    1 bin      bin            4427 Sep 18 2014  cursorfont.h
+drwxr-xr-x    2 bin      bin             256 Mar 03 2018  ext
+-rw-r--r--    1 bin      bin           17362 Sep 18 2014  kapture.h
+-rwxr-xr-x    1 bin      bin            4206 Sep 18 2014  keysym.h
+-rwxr-xr-x    1 bin      bin          169534 Sep 18 2014  keysymdef.h
+-rwxr-xr-x    1 bin      bin          300590 Jun 01 2015  ks_tables.h
+-rw-r--r--    1 bin      bin            1699 Sep 18 2014  shrmem.h
+-rw-r--r--    1 bin      bin           17555 Sep 18 2014  xpm.h
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ls -la /usr/include/openssl/
+total 3936
+drwxr-xr-x    2 root     system         4096 Nov 05 2021  .
+drwxr-xr-x   43 bin      bin           20480 Feb 09 16:05 ..
+-rw-r--r--    1 root     system         7378 Jun 12 2020  aes.h
+-rw-r--r--    1 root     system        64625 Jun 12 2020  asn1.h
+-rw-r--r--    1 root     system        25667 Jun 12 2020  asn1_mac.h
+-rw-r--r--    1 root     system        35707 Jun 12 2020  asn1t.h
+-rw-r--r--    1 root     system        39974 Jun 12 2020  bio.h
+-rw-r--r--    1 root     system         6583 Jun 12 2020  blowfish.h
+-rw-r--r--    1 root     system        45048 Jun 12 2020  bn.h
+-rw-r--r--    1 root     system         6258 Jun 12 2020  buffer.h
+-rw-r--r--    1 root     system         6797 Jun 12 2020  camellia.h
+-rw-r--r--    1 root     system         5891 Jun 12 2020  cast.h
+-rw-r--r--    1 root     system         4489 Jun 12 2020  cmac.h
+-rw-r--r--    1 root     system        29873 Jun 12 2020  cms.h
+-rw-r--r--    1 root     system         3607 Jun 12 2020  comp.h
+-rw-r--r--    1 root     system        12550 Jun 12 2020  conf.h
+-rw-r--r--    1 root     system         5379 Jun 12 2020  conf_api.h
+-rw-r--r--    1 root     system        28899 Jun 12 2020  crypto.h
+-rw-r--r--    1 root     system        13145 Jun 12 2020  des.h
+-rw-r--r--    1 root     system        22718 Jun 12 2020  des_old.h
+-rw-r--r--    1 root     system        17985 Jun 12 2020  dh.h
+-rw-r--r--    1 root     system        15107 Jun 12 2020  dsa.h
+-rw-r--r--    1 root     system        21442 Jun 12 2020  dso.h
+-rw-r--r--    1 root     system        10278 Jun 12 2020  dtls1.h
+-rw-r--r--    1 root     system        12177 Jun 12 2020  e_os2.h
+-rw-r--r--    1 root     system         1848 Jun 12 2020  ebcdic.h
+-rw-r--r--    1 root     system        57431 Jun 12 2020  ec.h
+-rw-r--r--    1 root     system         6423 Jun 12 2020  ecdh.h
+-rw-r--r--    1 root     system        15270 Jun 12 2020  ecdsa.h
+-rw-r--r--    1 root     system        46178 Jun 12 2020  engine.h
+-rw-r--r--    1 root     system        18082 Jun 12 2020  err.h
+-rw-r--r--    1 root     system        74486 Jun 12 2020  evp.h
+-rw-r--r--    1 root     system         5767 Jun 12 2020  hmac.h
+-rw-r--r--    1 root     system         9397 Jun 12 2020  krb5_asn.h
+-rw-r--r--    1 root     system         8085 Jun 12 2020  kssl.h
+-rw-r--r--    1 root     system        10781 Jun 12 2020  lhash.h
+-rw-r--r--    1 root     system         6018 Jun 12 2020  md4.h
+-rw-r--r--    1 root     system         6017 Jun 12 2020  md5.h
+-rw-r--r--    1 root     system         5174 Jun 12 2020  mdc2.h
+-rw-r--r--    1 root     system         9492 Jun 12 2020  modes.h
+-rw-r--r--    1 root     system       176889 Jun 12 2020  obj_mac.h
+-rw-r--r--    1 root     system        48796 Jun 12 2020  objects.h
+-rw-r--r--    1 root     system        28379 Jun 12 2020  ocsp.h
+-rw-r--r--    1 root     system         8565 Jun 12 2020  opensslconf.h
+-rw-r--r--    1 root     system         5173 Jun 12 2020  opensslv.h
+-rw-r--r--    1 root     system         9064 Jun 12 2020  ossl_typ.h
+-rw-r--r--    1 root     system        27171 Jun 12 2020  pem.h
+-rw-r--r--    1 root     system         4094 Jun 12 2020  pem2.h
+-rw-r--r--    1 root     system        16083 Jun 12 2020  pkcs12.h
+-rw-r--r--    1 root     system        22010 Jun 12 2020  pkcs7.h
+-rw-r--r--    1 root     system         4905 Jun 12 2020  pqueue.h
+-rw-r--r--    1 root     system         7004 Jun 12 2020  rand.h
+-rw-r--r--    1 root     system         5778 Jun 12 2020  rc2.h
+-rw-r--r--    1 root     system         5039 Jun 12 2020  rc4.h
+-rw-r--r--    1 root     system         5603 Jun 12 2020  ripemd.h
+-rw-r--r--    1 root     system        30967 Jun 12 2020  rsa.h
+-rw-r--r--    1 root     system       204135 Jun 12 2020  safestack.h
+-rw-r--r--    1 root     system         7272 Jun 12 2020  seed.h
+-rw-r--r--    1 root     system         9161 Jun 12 2020  sha.h
+-rw-r--r--    1 root     system         7157 Jun 12 2020  srp.h
+-rw-r--r--    1 root     system         7870 Jun 12 2020  srtp.h
+-rw-r--r--    1 root     system       150391 Jun 12 2020  ssl.h
+-rw-r--r--    1 root     system        13281 Jun 12 2020  ssl2.h
+-rw-r--r--    1 root     system         5021 Jun 12 2020  ssl23.h
+-rw-r--r--    1 root     system        34513 Jun 12 2020  ssl3.h
+-rw-r--r--    1 root     system         5764 Jun 12 2020  stack.h
+-rw-r--r--    1 root     system        29049 Jun 12 2020  symhacks.h
+-rw-r--r--    1 root     system        40643 Jun 12 2020  tls1.h
+-rw-r--r--    1 root     system        35792 Jun 12 2020  ts.h
+-rw-r--r--    1 root     system         5863 Jun 12 2020  txt_db.h
+-rw-r--r--    1 root     system        19919 Jun 12 2020  ui.h
+-rw-r--r--    1 root     system         4726 Jun 12 2020  ui_compat.h
+-rw-r--r--    1 root     system         2315 Jun 12 2020  whrlpool.h
+-rw-r--r--    1 root     system        54547 Jun 12 2020  x509.h
+-rw-r--r--    1 root     system        30470 Jun 12 2020  x509_vfy.h
+-rw-r--r--    1 root     system        41621 Jun 12 2020  x509v3.h
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ls -la /usr/include/freetype2/
+ls: 0653-341 The file /usr/include/freetype2/ does not exist.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ls -la /usr/include/fontconfig/
+ls: 0653-341 The file /usr/include/fontconfig/ does not exist.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src #

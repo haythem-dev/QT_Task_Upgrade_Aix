@@ -1,0 +1,20 @@
+
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ./build-qt515-aix-gcc463.sh
+Configuring qtbase with reduced features...
+./build-qt515-aix-gcc463.sh[17]: ./configure:  not found.
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # ls
+build-qt515-aix-gcc463.sh     include                       patch_configure1.txt          patch_qatomic.txt             proc
+build.xml                     ivy.xml                       patch_configure2.txt          patch_qglobal.txt             qtbase-everywhere-src-5.15.0
+conf                          patch                         patch_configure3.txt          patches                       sources
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # cd
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src #
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src # cd qtbase-everywhere-src-5.15.0
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0 # ls
+INSTALL                       LICENSE.LGPLv3                configure.bat                 header.BSD                    header.LGPL-NOGPL2            lib                           tests
+LICENSE.FDL                   LICENSE.QT-LICENSE-AGREEMENT  configure.json                header.COMM                   header.LGPL-ONLY              mkspecs                       util
+LICENSE.GPL2                  bin                           configure.pri                 header.FDL                    header.LGPL3                  qmake
+LICENSE.GPL3                  config.tests                  dist                          header.GPL                    header.LGPL3-COMM             qtbase.pro
+LICENSE.GPL3-EXCEPT           config_help.txt               doc                           header.GPL-EXCEPT             header.MIT                    src
+LICENSE.LGPL3                 configure                     examples                      header.LGPL                   include                       sync.profile
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0 #
