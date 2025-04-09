@@ -1,0 +1,179 @@
+diff -ur qt-everywhere-src-5.15.0-orig/configure qt-everywhere-src-5.15.0/configure
+--- qt-everywhere-src-5.15.0-orig/configure	2020-05-26 13:48:35.000000000 +0000
++++ qt-everywhere-src-5.15.0/configure	2023-08-01 10:11:23.000000000 +0000
+@@ -7346,6 +7346,11 @@
+     CFG_GCC_SUFFIX=
+ fi
+ 
++# Set OBJECT_MODE=64 for AIX
++if test "$PLATFORM_AIX"; then
++    export OBJECT_MODE=64
++fi
++
+ # Auto-detect C++11/C++14/C++17/C++2a support for the compiler (except when the user has explicitly specified a standard)
+ if [ -z "$CFG_CXX_STD" ]; then
+     case "$PLATFORM" in
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/mkspecs/aix-g++/qplatformdefs.h qt-everywhere-src-5.15.0/qtbase/mkspecs/aix-g++/qplatformdefs.h
+--- qt-everywhere-src-5.15.0-orig/qtbase/mkspecs/aix-g++/qplatformdefs.h	2020-05-26 13:48:27.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/mkspecs/aix-g++/qplatformdefs.h	2023-08-01 10:12:03.000000000 +0000
+@@ -82,8 +82,8 @@
+ #ifndef QT_SOCKLEN_T
+ #  define QT_SOCKLEN_T            socklen_t
+ #endif
+-
+-#if defined(_AIX43)
++
++#if defined(_AIX)
+ #define QT_SNPRINTF		::snprintf
+ #define QT_VSNPRINTF		::vsnprintf
+ #endif
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/mkspecs/aix-g++/qmake.conf qt-everywhere-src-5.15.0/qtbase/mkspecs/aix-g++/qmake.conf
+--- qt-everywhere-src-5.15.0-orig/qtbase/mkspecs/aix-g++/qmake.conf	2020-05-26 13:48:27.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/mkspecs/aix-g++/qmake.conf	2023-08-01 10:13:23.000000000 +0000
+@@ -15,13 +15,13 @@
+ QMAKE_CFLAGS_THREAD     = -D_THREAD_SAFE
+ 
+ QMAKE_COMPILER          = gcc
+-QMAKE_CC                = gcc
+-QMAKE_CFLAGS            = -g
++QMAKE_CC                = gcc -maix64
++QMAKE_CFLAGS            = -g -maix64
+ QMAKE_CFLAGS_DEPS       = -M
+ QMAKE_CFLAGS_WARN_ON    = -Wall -W
+ QMAKE_CFLAGS_WARN_OFF   = -w
+ QMAKE_CFLAGS_RELEASE    = -O2
+-QMAKE_CFLAGS_DEBUG      = -g
++QMAKE_CFLAGS_DEBUG      = -g
+ QMAKE_CFLAGS_SHLIB      = -fPIC
+ QMAKE_CFLAGS_STATIC_LIB = -fPIC
+ QMAKE_CFLAGS_YACC       = -Wno-unused -Wno-parentheses
+@@ -29,11 +29,12 @@
+ QMAKE_CFLAGS_HIDESYMS   = -fvisibility=hidden
+ QMAKE_CFLAGS_PRECOMPILE = -x c-header -c ${QMAKE_PCH_INPUT} -o ${QMAKE_PCH_OUTPUT}
+ QMAKE_CFLAGS_USE_PRECOMPILE = -Wno-deprecated -include ${QMAKE_PCH_OUTPUT_BASE}
++QMAKE_CFLAGS_PIC        = -fPIC
+ 
+-QMAKE_CXX               = g++
+-QMAKE_CXXFLAGS          = $$QMAKE_CFLAGS
++QMAKE_CXX               = g++ -maix64
++QMAKE_CXXFLAGS          = $$QMAKE_CFLAGS -std=c++11
+ QMAKE_CXXFLAGS_DEPS     = $$QMAKE_CFLAGS_DEPS
+-QMAKE_CXXFLAGS_WARN_ON  = $$QMAKE_CFLAGS_WARN_ON
++QMAKE_CXXFLAGS_WARN_ON  = $$QMAKE_CFLAGS_WARN_ON -Wno-deprecated
+ QMAKE_CXXFLAGS_WARN_OFF = $$QMAKE_CFLAGS_WARN_OFF
+ QMAKE_CXXFLAGS_RELEASE  = $$QMAKE_CFLAGS_RELEASE
+ QMAKE_CXXFLAGS_DEBUG    = $$QMAKE_CFLAGS_DEBUG
+@@ -41,7 +42,7 @@
+ QMAKE_CXXFLAGS_STATIC_LIB = $$QMAKE_CFLAGS_STATIC_LIB
+ QMAKE_CXXFLAGS_YACC     = $$QMAKE_CFLAGS_YACC
+ QMAKE_CXXFLAGS_THREAD   = $$QMAKE_CFLAGS_THREAD
+-QMAKE_CXXFLAGS_HIDESYMS = $$QMAKE_CFLAGS_HIDESYMS -fvisibility-inlines-hidden
++QMAKE_CXXFLAGS_HIDESYMS = $$QMAKE_CFLAGS_HIDESYMS
+ QMAKE_CXXFLAGS_PRECOMPILE = -x c++-header -c ${QMAKE_PCH_INPUT} -o ${QMAKE_PCH_OUTPUT}
+ QMAKE_CXXFLAGS_USE_PRECOMPILE = $$QMAKE_CFLAGS_USE_PRECOMPILE
+
+@@ -58,16 +59,18 @@
+ QMAKE_LFLAGS            = -pthread
+ QMAKE_LFLAGS_DEBUG      = -g
+ QMAKE_LFLAGS_RELEASE    =
+-QMAKE_LFLAGS_APP        = -Wl,-brtl
++QMAKE_LFLAGS_APP        = -Wl,-brtl -Wl,-blibpath:/usr/lib:/lib
+ QMAKE_LFLAGS_SHLIB      = -shared -Wl,-G
+-QMAKE_LFLAGS_PLUGIN     = $$QMAKE_LFLAGS_SHLIB
+-QMAKE_LFLAGS_SONAME     = -Wl,-h,
++QMAKE_LFLAGS_PLUGIN     = $$QMAKE_LFLAGS_SHLIB -Wl,-bexpall,-bnoentry
++QMAKE_LFLAGS_SONAME     = -Wl,-bnoentry
+ QMAKE_LFLAGS_THREAD     =
+ QMAKE_LFLAGS_NOUNDEF    = -Wl,-z,defs
+ QMAKE_LFLAGS_RPATH      = -Wl,-rpath,
++QMAKE_LFLAGS_RPATHLINK  = -Wl,-rpath-link,
+ 
+-QMAKE_AIX_SHLIB         = 1
+-QMAKE_COPY              = cp -f
++QMAKE_LIBDIR_FLAGS      = 
++QMAKE_AIX_SHLIB         = 1
++QMAKE_COPY              = cp -f
+ QMAKE_COPY_FILE         = $$QMAKE_COPY
+ QMAKE_COPY_DIR          = $$QMAKE_COPY -r
+ QMAKE_MOVE              = mv -f
+@@ -77,5 +80,6 @@
+ 
+ include(../common/unix.conf)
+ load(qt_config)
++
+ load(qcc_mips_dsp)
+ load(qcc_mips_dspr2)
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/kernel/qcore_unix.cpp qt-everywhere-src-5.15.0/qtbase/src/corelib/kernel/qcore_unix.cpp
+--- qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/kernel/qcore_unix.cpp	2020-05-26 13:48:29.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/src/corelib/kernel/qcore_unix.cpp	2023-08-01 10:14:55.000000000 +0000
+@@ -180,6 +180,12 @@
+ 
+     return "Unknown";
+ }
++
++// AIX specific fix: errno on AIX may not be thread-local
++#if defined(_AIX)
++#include <errno.h>
++#define qt_errno errno
++#endif
+ 
+ QByteArray qt_readlink(const char *path)
+ {
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/thread/qatomic_cxx11.h qt-everywhere-src-5.15.0/qtbase/src/corelib/thread/qatomic_cxx11.h
+--- qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/thread/qatomic_cxx11.h	2020-05-26 13:48:29.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/src/corelib/thread/qatomic_cxx11.h	2023-08-01 10:15:32.000000000 +0000
+@@ -128,7 +128,7 @@
+ // QBasicAtomicPointer is currently not supported with AIX.
+ // xlC 13.1 shows that the feature test macro would be
+ // __IBMCPP_ATOMIC_REFERENCE__ if it would be supported.
+-#elif defined(Q_OS_AIX)
++#elif 0 /* defined(Q_OS_AIX) */
+ template <typename X>
+ struct QBasicAtomicOps<X *, true>: QGenericAtomicOps<X *>
+ {
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/src/gui/kernel/qplatformwindow.cpp qt-everywhere-src-5.15.0/qtbase/src/gui/kernel/qplatformwindow.cpp
+--- qt-everywhere-src-5.15.0-orig/qtbase/src/gui/kernel/qplatformwindow.cpp	2020-05-26 13:48:30.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/src/gui/kernel/qplatformwindow.cpp	2023-08-01 10:16:18.000000000 +0000
+@@ -344,6 +344,13 @@
+ {
+ #if QT_CONFIG(vulkan)
+     QPlatformVulkanInstance *instance = window()->vulkanInstance() ? window()->vulkanInstance()->handle() : nullptr;
++    
++    // AIX doesn't support Vulkan, skip the initialization
++    #if defined(Q_OS_AIX)
++    qWarning("Vulkan is not supported on AIX");
++    return VkSurfaceKHR(0);
++    #endif
++    
+     if (!instance) {
+         qWarning("Failed to create Vulkan surface: No QPlatformVulkanInstance available");
+         return VkSurfaceKHR(0);
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/global/qsystemdetection.h qt-everywhere-src-5.15.0/qtbase/src/corelib/global/qsystemdetection.h
+--- qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/global/qsystemdetection.h	2020-05-26 13:48:29.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/src/corelib/global/qsystemdetection.h	2023-08-01 10:17:08.000000000 +0000
+@@ -260,7 +260,7 @@
+ #  if defined(_AIX43)
+ #    define Q_OS_AIX43
+ #  endif
+-#  define Q_OS_UNIX
++#  define Q_OS_UNIX 1
+ #elif defined(hpux) || defined(__hpux)
+ #  define Q_OS_HPUX
+ #  define Q_OS_UNIX
+diff -ur qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/io/qfilesystemengine_unix.cpp qt-everywhere-src-5.15.0/qtbase/src/corelib/io/qfilesystemengine_unix.cpp
+--- qt-everywhere-src-5.15.0-orig/qtbase/src/corelib/io/qfilesystemengine_unix.cpp	2020-05-26 13:48:29.000000000 +0000
++++ qt-everywhere-src-5.15.0/qtbase/src/corelib/io/qfilesystemengine_unix.cpp	2023-08-01 10:18:03.000000000 +0000
+@@ -139,6 +139,13 @@
+ //static
+ QFileSystemEntry QFileSystemEngine::canonicalName(const QFileSystemEntry &entry, QSystemError &error)
+ {
++    // AIX special case for canonical path
++    #if defined(Q_OS_AIX)
++    if (entry.filePath().isEmpty() || entry.filePath() == QLatin1String(".")) {
++        return QFileSystemEntry(QDir::currentPath());
++    }
++    #endif
++    
+     if (entry.filePath().isEmpty() || entry.filePath() == QLatin1String("."))
+         return QFileSystemEntry(QDir::currentPath());
+     if (entry.filePath() == QLatin1String("..")) {
