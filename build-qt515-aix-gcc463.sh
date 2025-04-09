@@ -4,9 +4,9 @@
 # Exit on error
 set -e
 
-# For testing in Replit environment
-BASE_DIR="$(pwd)"
-QT_SRC_DIR="${BASE_DIR}/qtbase-everywhere-src-5.15.0/qtbase-everywhere-src-5.15.0"
+# Base directory paths
+BASE_DIR="/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src"
+QT_SRC_DIR="${BASE_DIR}/qtbase-everywhere-src-5.15.0"
 CONFIGURE_PATH="${QT_SRC_DIR}/configure"
 
 echo "Starting Qt 5.15.0 build process..."

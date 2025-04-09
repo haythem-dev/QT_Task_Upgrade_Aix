@@ -1,18 +1,16 @@
 {
-  "os_version": "Unknown",
-  "uname": "Linux e9ab0f788377 6.2.16 #1-NixOS SMP PREEMPT_DYNAMIC Tue Jan  1 00:00:00 UTC 1980 x86_64 GNU/Linux",
-  "processor_type": "Unknown",
-  "memory": "Unknown",
-  "xlc_r_version": "Not found",
-  "xlC_r_version": "Not found",
-  "gcc_version": "gcc (GCC) 13.3.0",
-  "g++_version": "g++ (GCC) 13.3.0",
-  "libraries": {
-    "OpenSSL": "1.1.1f",
-    "X11": "Not found",
-    "fontconfig": "Not found",
-    "freetype": "Not found",
-    "zlib": "Not found",
-    "libpng": "Not found"
-  }
+  "os": "Linux",
+  "os_version": "#1-NixOS SMP PREEMPT_DYNAMIC Tue Jan  1 00:00:00 UTC 1980",
+  "architecture": "x86_64",
+  "compiler": "gcc",
+  "compiler_version": "13.3.0",
+  "missing_libraries": [
+    "X11",
+    "OpenSSL",
+    "Freetype",
+    "Fontconfig"
+  ],
+  "missing_tools": [
+    "patch"
+  ]
 }

@@ -1,12 +1,13 @@
---- qtbase-everywhere-src-5.15.0/configure.orig	2023-04-09 14:00:00.000000000 +0000
-+++ qtbase-everywhere-src-5.15.0/configure	2023-04-09 14:00:00.000000000 +0000
-@@ -1030,6 +1030,9 @@
-         # GCC >= 5.0
+--- a/configure
++++ b/configure
+@@ -1054,6 +1054,10 @@
+         # GCC 5.x, but not ICC
          gcc5version=$(echo "$TEST_COMPILER_VERSION" | grep -o "\\<5\\.[0-9]\\+\\>" || true)
-         [ -n "$gcc5version" ] && QMAKE_ARGS="$QMAKE_ARGS -D QT_NO_DEPRECATED_WARNINGS"
+         [ -n "$gcc5version" ] && QMAKE_ARGS="$QMAKE_ARGS -D QT_NO_UNSHARABLE_CONTAINERS"
++
 +        # GCC 4.6.x
 +        gcc46version=$(echo "$TEST_COMPILER_VERSION" | grep -o "\\<4\\.6\\.[0-9]\\+\\>" || true)
 +        [ -n "$gcc46version" ] && QMAKE_ARGS="$QMAKE_ARGS -D QT_NO_CXX11_FUTURE -D QT_NO_CXX11_NUMERIC_LIMITS -D QT_NO_CXX11_VARIADIC_TEMPLATES"
      fi
  
-     # Check if -Zc:wchar_t- is required on this MSVC version.
+     # Detect QNX
