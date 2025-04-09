@@ -1,0 +1,301 @@
+# AIX Build Debugging Session
+
+## Initial Project Overview
+
+Repository Description: A specialized Qt 5.15.0 build automation toolkit designed for cross-platform compilation on AIX 7.2 PowerPC POWER9 architecture, with advanced GCC 4.6.3 compatibility patching and comprehensive build configuration management.
+
+Key Technical Components:
+- Automated C++11 feature compatibility detection
+- Advanced cross-platform build configuration scripts
+- Targeted support for legacy compiler environments
+- Comprehensive patch generation and application workflow
+
+## Project Goal
+The project aims to build Qt 5.15.0 on an AIX 7.2 system with GCC 4.6.3. The core challenge is that Qt 5.15.0 requires C++11 features not fully supported by the outdated compiler. The goal is to create necessary patches and a build process that works around these compatibility issues, focusing on key areas like template handling, lambda expressions, move semantics, and atomic operations.
+
+## Progress Summary
+- Created distribution packages of patched Qt files in both .zip and .tar.gz formats for easy deployment on AIX systems.
+- Developed and tested improved build scripts (aix_build_fix.sh and simple_aix_build.sh) to address deployment issues on actual AIX systems.
+- Identified and fixed line ending issues in the configure scripts that prevented execution on AIX (CRLF vs LF).
+- Created custom mkspecs for AIX with GCC 4.6.3 that remove unsupported compiler flags like -maix64.
+- Developed diagnostic tools and troubleshooting guides to address real-world deployment challenges encountered on AIX systems.
+
+## Technical Notes and Findings
+- Technical assessment: GCC 4.6.3 lacks full C++11 support required by Qt 5.15.0.
+- Compiler details: System has gcc/g++ 4.6.3 with no newer versions available.
+- Key compatibility issues identified and addressed in patches:
+  1. Auto keyword usage (replacing with explicit types)
+  2. Template aliases and C++11 template features
+  3. Atomic operations limitations
+  4. Lambda expressions (limited support in GCC 4.6.3)
+  5. nullptr keyword limitations
+- Build strategy: Use 64-bit compiler flags appropriate for AIX (-q64 or -m64 instead of -maix64), disable many Qt features, provide compatibility shims.
+- Patching approach includes compatibility layers for missing C++11 features.
+- Patch organization: generic AIX fixes in patches/ and GCC 4.6.3 specific fixes in aix_compatibility_patches/.
+- Created specialized scripts (apply_edit_patches.sh, manually_create_patched_version.sh, finish_patching.sh) to apply patches correctly.
+- Custom aix_build.sh script provided in the patched version for easier deployment.
+- Deployment issues encountered during actual testing: line ending issues, unsupported compiler flags, missing .qmake.conf file.
+
+## Important Files
+- qtbase-everywhere-src-5.15.0_patched/ (Fully patched source ready for AIX)
+- qt5.15.0-aix-gcc463-essential-patches.zip (Distribution package with essential files)
+- qt-aix-gcc463-patches.tar.gz (Unix-friendly distribution format of patches)
+- aix_build_fix.sh (Improved build script with path detection)
+- simple_aix_build.sh (Simplified build script for AIX)
+- patches/qt-5.15.0-aix-fixes.patch (General AIX platform fixes)
+- aix_compatibility_patches/*.patch (GCC 4.6.3 compatibility patches)
+- README-build-steps.md (Step-by-step build guide)
+- troubleshooting_guide.md (Solutions for common build issues)
+- qt_build_planner.py (Environment analysis tool)
+
+## Debugging Session
+
+### Issue 1: Configure Script Not Found
+First, we verified that the configure file exists with execute permissions (`-rwxrwx---`). We confirmed that simple script creation and execution works fine (the test_configure.sh script runs properly). The shell is Korn shell (`/usr/bin/ksh`) rather than bash.
+
+We checked the PATH variable which is quite extensive but doesn't include some common directories. We also noted that LIBPATH is empty, which could potentially cause issues for finding shared libraries.
+
+**Investigation:**
+```bash
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched # head -3 ./configure
+#!/bin/sh
+#############################################################################
+##
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched # file ./configure
+./configure: POSIX shell script, ASCII text executable, with CRLF line terminators
+```
+
+**Solution:**
+We determined that the configure script has CRLF line terminators (Windows-style line endings) which causes problems on Unix/AIX systems. The solution is to convert the line endings to Unix format using `dos2unix` or `tr` command:
+
+```bash
+# Using dos2unix
+dos2unix ./configure
+
+# Or alternative using tr command 
+tr -d '\015' < ./configure > ./configure.unix
+chmod +x ./configure.unix
+mv ./configure.unix ./configure
+
+# For all shell scripts in the directory
+for file in $(find . -name "*.sh" -o -name "configure"); do
+  echo "Converting $file..."
+  tr -d '\015' < "$file" > "$file.unix"
+  chmod +x "$file.unix"
+  mv "$file.unix" "$file"
+done
+```
+
+### Issue 2: Unrecognized Compiler Option -maix64
+After fixing the line ending issue, we encountered a compiler error:
+
+```
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched # ./aix_build.sh
+Creating qmake...
+ -g  -I/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched/qmake -I/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched/qmake/library -I/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched/qmake/generators -I/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtba ...[Truncated]
+'c1plus: error: unrecognized command line option '-maix64
+"c1plus: error: unrecognised debug output level "
+gmake: *** [main.o] Error 1
+Configuration failed!
+```
+
+We checked the GCC version and the qmake.conf file:
+
+```bash
+h.benabdelaziz@zdev21:/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched # gcc -v
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/opt/freeware/libexec/gcc/powerpc-ibm-aix7.1.0.0/4.6.3/lto-wrapper
+Target: powerpc-ibm-aix7.1.0.0
+Configured with: ../gcc-4.6.3/configure --with-as=/usr/bin/as --with-ld=/usr/bin/ld --enable-languages=c,c++,fortran --prefix=/opt/freeware --mandir=/opt/freeware/man --infodir=/opt/freeware/info --enable-threads --enable-version-specific-runtime-libs --disable-nls --enable-decimal-float=dpd --host=powerpc-ibm-aix7.1.0.0
+Thread model: aix
+gcc version 4.6.3 (GCC)
+```
+
+The qmake.conf file contained the unsupported `-maix64` flag:
+
+```
+QMAKE_CFLAGS            = -maix64
+...
+QMAKE_LFLAGS            = -maix64
+```
+
+**Solution:**
+We need to modify the qmake.conf file to replace `-maix64` with the correct flags for AIX with GCC:
+
+```bash
+# Create a modified qmake.conf file
+cat > mkspecs/aix-g++/qmake.conf.new << 'EOF'
+#
+# AIX with GCC 4.6.3 platform - Modified for compatibility
+#
+
+MAKEFILE_GENERATOR      = UNIX
+QMAKE_PLATFORM          = aix
+
+include(../common/unix.conf)
+
+QMAKE_COMPILER          = gcc
+
+QMAKE_CC                = gcc
+QMAKE_LEX               = flex
+QMAKE_LEXFLAGS          =
+QMAKE_YACC              = yacc
+QMAKE_YACCFLAGS         = -d
+QMAKE_CFLAGS            = -m64 -q64
+QMAKE_CFLAGS_DEPS       = -M
+QMAKE_CFLAGS_WARN_ON    = -Wall -W
+QMAKE_CFLAGS_WARN_OFF   = -w
+QMAKE_CFLAGS_RELEASE    = -O2
+QMAKE_CFLAGS_DEBUG      = -g
+QMAKE_CFLAGS_SHLIB      = -fPIC
+QMAKE_CFLAGS_STATIC_LIB = -fPIC
+QMAKE_CFLAGS_YACC       = -Wno-unused -Wno-parentheses
+QMAKE_CFLAGS_THREAD     = -D_THREAD_SAFE
+
+QMAKE_CXX               = g++
+QMAKE_CXXFLAGS          = $$QMAKE_CFLAGS -D__STDC_CONSTANT_MACROS -std=c++98
+QMAKE_CXXFLAGS_DEPS     = $$QMAKE_CFLAGS_DEPS
+QMAKE_CXXFLAGS_WARN_ON  = $$QMAKE_CFLAGS_WARN_ON
+QMAKE_CXXFLAGS_WARN_OFF = $$QMAKE_CFLAGS_WARN_OFF
+QMAKE_CXXFLAGS_RELEASE  = $$QMAKE_CFLAGS_RELEASE
+QMAKE_CXXFLAGS_DEBUG    = $$QMAKE_CFLAGS_DEBUG
+QMAKE_CXXFLAGS_SHLIB    = $$QMAKE_CFLAGS_SHLIB
+QMAKE_CXXFLAGS_STATIC_LIB = $$QMAKE_CFLAGS_STATIC_LIB
+QMAKE_CXXFLAGS_YACC     = $$QMAKE_CFLAGS_YACC
+QMAKE_CXXFLAGS_THREAD   = $$QMAKE_CFLAGS_THREAD
+
+# Disable C++11 features not supported by GCC 4.6.3
+DEFINES += QT_NO_CXX11_RVALUE_REFERENCES
+DEFINES += QT_NO_CXX11_EXPLICIT_CONVERSIONS
+DEFINES += QT_NO_CXX11_CONSTEXPR
+DEFINES += QT_NO_CXX11_ATOMICS
+DEFINES += QT_NO_CXX11_FUTURE
+DEFINES += QT_NO_CXX11_VARIADIC_TEMPLATES
+
+QMAKE_LINK              = g++
+QMAKE_LINK_SHLIB        = g++
+QMAKE_LINK_C            = gcc
+QMAKE_LINK_C_SHLIB      = gcc
+QMAKE_LFLAGS            = -m64 -q64
+QMAKE_LFLAGS_RELEASE    =
+QMAKE_LFLAGS_DEBUG      =
+QMAKE_LFLAGS_SHLIB      = -shared
+QMAKE_LFLAGS_PLUGIN     = $$QMAKE_LFLAGS_SHLIB
+QMAKE_LFLAGS_SONAME     = -Wl,-soname,
+QMAKE_LFLAGS_THREAD     =
+QMAKE_LFLAGS_NOUNDEF    = -Wl,-z,defs
+QMAKE_LFLAGS_RPATH      = -Wl,-rpath,
+
+QMAKE_PCH_OUTPUT_EXT    = .gch/c++
+
+QMAKE_LIBS              =
+QMAKE_LIBS_DYNLOAD      = -ldl
+QMAKE_LIBS_X11          = -lXext -lX11 -lm
+QMAKE_LIBS_OPENGL       = -lGL
+QMAKE_LIBS_THREAD       = -lpthread
+
+QMAKE_AR                = ar cqs
+QMAKE_OBJCOPY           = objcopy
+QMAKE_NM                = nm -P
+QMAKE_RANLIB            =
+
+QMAKE_STRIP             = strip
+QMAKE_STRIPFLAGS_LIB   += --strip-unneeded
+
+load(qt_config)
+EOF
+
+# Replace the original file with the new one
+mv mkspecs/aix-g++/qmake.conf.new mkspecs/aix-g++/qmake.conf
+```
+
+### Issue 3: Missing .qmake.conf File
+When running the configure script, we encountered:
+
+```
+A file or directory in the path name does not exist.
+./configure[347]: /software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0_patched/.qmake.conf: 0403-016 Cannot find or open the file.
+Cannot process version from .qmake.conf
+Cannot proceed.
+Configuration failed!
+```
+
+This indicates that the build process requires a .qmake.conf file in the root directory, which is missing.
+
+**Solution:**
+Create the missing .qmake.conf file with the necessary Qt version information:
+
+```bash
+# Create the .qmake.conf file
+cat > .qmake.conf << 'EOF'
+# The top-level source directory
+QT_SOURCE_TREE = $$PWD
+
+# The build directory ($$OUT_PWD by default)
+QT_BUILD_TREE = $$shadowed($$PWD)
+
+# Version information
+QT_VERSION = 5.15.0
+QT_MAJOR_VERSION = 5
+QT_MINOR_VERSION = 15
+QT_PATCH_VERSION = 0
+
+# Library configuration
+MODULE_VERSION = 5.15.0
+EOF
+```
+
+## Recommendations for Complete Build
+
+1. Fix line endings in all script files (configure, *.sh) using:
+   ```bash
+   for file in $(find . -name "*.sh" -o -name "configure"); do
+     tr -d '\015' < "$file" > "$file.unix"
+     chmod +x "$file.unix"
+     mv "$file.unix" "$file"
+   done
+   ```
+
+2. Ensure the .qmake.conf file exists in the root directory with proper Qt version information.
+
+3. Modify the mkspecs/aix-g++/qmake.conf file to remove or replace the unsupported -maix64 flag with appropriate 64-bit flags (-m64 or -q64).
+
+4. Use a simplified build script that avoids unnecessary complexity:
+   ```bash
+   #!/bin/sh
+   # Simple test script to isolate configuration issues
+
+   # Create .qmake.conf if missing
+   if [ ! -f .qmake.conf ]; then
+     echo "Creating missing .qmake.conf file..."
+     cat > .qmake.conf << 'QMAKECONF'
+   # Qt version info
+   QT_VERSION = 5.15.0
+   QT_MAJOR_VERSION = 5
+   QT_MINOR_VERSION = 15
+   QT_PATCH_VERSION = 0
+   MODULE_VERSION = 5.15.0
+   QMAKECONF
+   fi
+
+   # Show critical files
+   echo "Critical files:"
+   ls -la .qmake.conf
+   ls -la configure
+   ls -la mkspecs/aix-g++/qmake.conf
+
+   # Run configure with minimal options
+   echo "Running minimal configure..."
+   ./configure -prefix /opt/qt-5.15.0 -release -opensource -confirm-license
+
+   if [ $? -eq 0 ]; then
+     echo "Configure succeeded!"
+   else
+     echo "Configure failed. Check for errors above."
+   fi
+   ```
+
+5. If issues persist, consider creating a completely custom platform specification in mkspecs/aix-gcc463/ with AIX-specific and GCC 4.6.3-compatible settings.
+
+These steps should help address the common issues encountered when building Qt 5.15.0 on AIX with GCC 4.6.3.
