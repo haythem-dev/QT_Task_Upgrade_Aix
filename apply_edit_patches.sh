@@ -2,7 +2,8 @@
 # Alternative method to apply patches using ed (text editor) scripts
 # This is useful if the 'patch' command fails or isn't available
 
-QT_SRC_DIR="/software/home/benabdelaziz/cc_compiler/qt/5.15.0/pharmos.3rd_party.qt5/dev/src/qtbase-everywhere-src-5.15.0"
+# Use the local directory for Replit testing
+QT_SRC_DIR="$(pwd)/qtbase-everywhere-src-5.15.0/qtbase-everywhere-src-5.15.0"
 
 echo "Applying patches using ed text editor..."
 echo "Qt source directory: ${QT_SRC_DIR}"
